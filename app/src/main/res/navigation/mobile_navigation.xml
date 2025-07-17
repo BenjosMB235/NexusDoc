@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/homeFragment">
+
+    <!-- Bottom Navigation Destinations -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.nexusdoc.ui.home.HomeFragment"
+        android:label="Accueil"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/archivesFragment"
+        android:name="com.example.nexusdoc.ui.archives.ArchivesFragment"
+        android:label="Archives"
+        tools:layout="@layout/fragment_archives" >
+
+        <action
+            android:id="@+id/action_to_scan"
+            app:destination="@id/scanFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/analyseFragment"
+        android:name="com.example.nexusdoc.ui.analyse.AnalyseFragment"
+        android:label="Analyse"
+        tools:layout="@layout/fragment_analyse" />
+
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.example.nexusdoc.ui.notifications.NotificationsFragment"
+        android:label="Notifications"
+        tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/teamFragment"
+        android:name="com.example.nexusdoc.ui.team.TeamFragment"
+        android:label="Equipe"
+        tools:layout="@layout/fragment_team">
+
+        <action
+            android:id="@+id/action_team_to_chat"
+            app:destination="@id/chatFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.nexusdoc.ui.chat.ChatFragment"
+        android:label="Chat"
+        tools:layout="@layout/fragment_chat" />
+
+    <!-- Drawer Navigation Destinations -->
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.example.nexusdoc.ui.settings.SettingsFragment"
+        android:label="Paramètres"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/nav_about"
+        android:name="com.example.nexusdoc.ui.about.AboutFragment"
+        android:label="A propos"
+        tools:layout="@layout/fragment_about" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.nexusdoc.ui.profile.ProfileFragment"
+        android:label="Profil"
+        tools:layout="@layout/fragment_profile" >
+
+        <action
+            android:id="@+id/action_profile_to_modifierProfile"
+            app:destination="@id/modifierProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/modifierProfileFragment"
+        android:name="com.example.nexusdoc.ui.profile.ModifierProfileFragment"
+        android:label="Modifier Profil"
+        tools:layout="@layout/fragment_modifier_profile" />
+
+    <!-- Actions pour les autres éléments du drawer -->
+    <fragment
+        android:id="@+id/scanFragment"
+        android:label="Scanner"
+        android:name="com.example.nexusdoc.ui.scan.ScanFragment"
+        tools:layout="@layout/fragment_scan">
+        <action
+            android:id="@+id/action_scan_to_archives"
+            app:destination="@id/archivesFragment" />
+    </fragment>
+</navigation>

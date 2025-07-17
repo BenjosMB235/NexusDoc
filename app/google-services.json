@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "620793446263",
+    "project_id": "nexusdoc-e7976",
+    "storage_bucket": "nexusdoc-e7976.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620793446263:android:c9125e15b1651f3b78ab72",
+        "android_client_info": {
+          "package_name": "com.example.nexusdoc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABUceGzrqi38W3ER7ANRc_MhuEf67i7V8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

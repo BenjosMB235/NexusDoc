@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:layout_margin="4dp"
+    app:cardElevation="2dp"
+    app:cardCornerRadius="8dp"
+    app:cardBackgroundColor="?attr/colorSurfaceVariant">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Image de prévisualisation -->
+        <ImageView
+            android:id="@+id/preview_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/ic_image" />
+
+        <!-- Icône pour les fichiers non-image -->
+        <ImageView
+            android:id="@+id/file_type_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_description_24"
+            app:tint="?attr/colorOnSurfaceVariant"
+            android:visibility="gone" />
+
+        <!-- Bouton supprimer -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_remove"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="4dp"
+            app:icon="@drawable/ic_close"
+            app:iconSize="16dp"
+            app:iconTint="?attr/colorOnError"
+            app:backgroundTint="?attr/colorError" />
+
+    </FrameLayout>
+
+</com.google.android.material.card.MaterialCardView>

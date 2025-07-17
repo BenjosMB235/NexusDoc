@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color">
+
+    <!-- AppBar avec profil header -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            app:contentScrim="@color/primary_color"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:titleEnabled="false">
+
+            <!-- Background avec gradient -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/profile_header_gradient"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="24dp"
+                app:layout_collapseMode="parallax">
+
+                <!-- Avatar de profil -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/profile_avatar_container"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    app:cardCornerRadius="60dp"
+                    app:cardElevation="12dp"
+                    android:layout_marginBottom="16dp">
+
+                    <ImageView
+                        android:id="@+id/profile_avatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_profile_placeholder"
+                        android:scaleType="centerCrop" />
+
+                </androidx.cardview.widget.CardView>
+
+                <!-- Nom complet -->
+                <TextView
+                    android:id="@+id/tv_full_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nom d'utilisateur"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- Status ou rôle -->
+                <TextView
+                    android:id="@+id/tv_user_fonction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fonction"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:alpha="0.9" />
+
+                <!-- Email -->
+                <TextView
+                    android:id="@+id/tv_user_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="email@example.com"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:alpha="0.8"
+                    android:layout_marginTop="4dp" />
+
+            </LinearLayout>
+
+            <!-- Toolbar -->
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:title="Profil"
+                app:titleTextColor="@color/white" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Contenu principal -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Section Informations personnelles -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Informations personnelles"
+                        android:textSize="18sp"
+                        android:textColor="@color/text_primary"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="16dp"
+                        android:drawableStart="@drawable/ic_person"
+                        android:drawablePadding="12dp"
+                        android:drawableTint="@color/colorPrimary"
+                        android:gravity="center_vertical" />
+
+                    <!-- Username -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Nom d'utilisateur"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp"
+                            android:textAllCaps="true"
+                            android:layout_marginBottom="4dp" />
+
+                        <TextView
+                            android:id="@+id/tv_username"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="username"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp"
+                            android:background="@drawable/info_field_background"
+                            android:padding="12dp" />
+
+                    </LinearLayout>
+
+                    <!-- Fonction -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Fonction"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp"
+                            android:textAllCaps="true"
+                            android:layout_marginBottom="4dp" />
+
+                        <TextView
+                            android:id="@+id/tv_fonction"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Fonction"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp"
+                            android:background="@drawable/info_field_background"
+                            android:padding="12dp" />
+
+                    </LinearLayout>
+
+                    <!-- Email -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Adresse e-mail"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp"
+                            android:textAllCaps="true"
+                            android:layout_marginBottom="4dp" />
+
+                        <TextView
+                            android:id="@+id/tv_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="email@example.com"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp"
+                            android:background="@drawable/info_field_background"
+                            android:padding="12dp"
+                            android:drawableStart="@drawable/ic_email"
+                            android:drawablePadding="8dp"
+                            android:drawableTint="@color/colorPrimary"
+                            android:gravity="center_vertical" />
+
+                    </LinearLayout>
+
+                    <!-- Téléphone -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Numéro de téléphone"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp"
+                            android:textAllCaps="true"
+                            android:layout_marginBottom="4dp" />
+
+                        <TextView
+                            android:id="@+id/tv_telephone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="+235 00 00 00 00"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp"
+                            android:background="@drawable/info_field_background"
+                            android:padding="12dp"
+                            android:drawableStart="@drawable/ic_phone"
+                            android:drawablePadding="8dp"
+                            android:drawableTint="@color/colorPrimary"
+                            android:gravity="center_vertical" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Section Actions -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Actions"
+                        android:textSize="18sp"
+                        android:textColor="@color/text_primary"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="16dp"
+                        android:drawableStart="@drawable/ic_settings"
+                        android:drawablePadding="12dp"
+                        android:drawableTint="@color/colorPrimary"
+                        android:gravity="center_vertical" />
+
+                    <!-- Bouton Modifier le profil -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_modifier_profil"
+                        style="@style/Widget.Material3.Button.Filled"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:text="Modifier le profil"
+                        android:textSize="16sp"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:icon="@drawable/ic_edit"
+                        app:iconGravity="textStart"
+                        app:iconPadding="8dp"
+                        app:iconTint="@color/white"
+                        android:layout_marginBottom="12dp" />
+
+                    <!-- Bouton Changer le mot de passe -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_changer_mot_de_passe"
+                        style="@style/Widget.Material3.Button.Outlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:text="Changer le mot de passe"
+                        android:textSize="16sp"
+                        app:strokeColor="@color/colorPrimary"
+                        app:icon="@drawable/ic_lock"
+                        app:iconGravity="textStart"
+                        app:iconPadding="8dp"
+                        app:iconTint="@color/colorPrimary"
+                        android:layout_marginBottom="12dp" />
+
+                    <!-- Bouton Déconnexion -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_logout"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:text="Se déconnecter"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorError"
+                        app:icon="@drawable/ic_deconnexion"
+                        app:iconGravity="textStart"
+                        app:iconPadding="8dp"
+                        app:iconTint="@color/colorError" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- FAB pour édition rapide -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end"
+        app:srcCompat="@drawable/ic_edit"
+        app:backgroundTint="@color/accent_color"
+        app:tint="@color/white" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet_filters"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_bottom_sheet"
+    android:padding="16dp"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <!-- Handle du bottom sheet -->
+    <View
+        android:layout_width="32dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/shape_bottom_sheet_handle"
+        android:backgroundTint="?attr/colorOnSurfaceVariant" />
+
+    <!-- Titre -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filtres et tri"
+        android:fontFamily="@font/roboto_condensed"
+        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+        android:textColor="?attr/colorOnSurface"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Tri -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trier par"
+        android:fontFamily="@font/roboto_condensed"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        android:textColor="?attr/colorOnSurface"
+        android:layout_marginBottom="12dp" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group_sort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:singleSelection="true"
+        app:chipSpacingHorizontal="8dp">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_sort_name"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nom"
+            android:checked="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_sort_role"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rôle" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_sort_activity"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Activité récente" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_sort_joined"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date d'ajout" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <!-- Filtres de statut -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Statut"
+        android:fontFamily="@font/roboto_condensed"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        android:textColor="?attr/colorOnSurface"
+        android:layout_marginBottom="12dp" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:singleSelection="false"
+        app:chipSpacingHorizontal="8dp">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_status_online"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="En ligne"
+            app:chipIcon="@drawable/ic_circle_24"
+            app:chipIconTint="@color/status_online" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_status_away"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Absent"
+            app:chipIcon="@drawable/ic_circle_24"
+            app:chipIconTint="@color/status_away" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_status_offline"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hors ligne"
+            app:chipIcon="@drawable/ic_circle_24"
+            app:chipIconTint="@color/status_offline" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <!-- Filtres de rôle -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rôles"
+        android:fontFamily="@font/roboto_condensed"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        android:textColor="?attr/colorOnSurface"
+        android:layout_marginBottom="12dp" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group_roles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        app:singleSelection="false"
+        app:chipSpacingHorizontal="8dp">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_role_admin"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Administrateur" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_role_manager"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manager" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_role_developer"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Développeur" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_role_designer"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Designer"
+            android:fontFamily="@font/roboto_condensed"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_role_analyst"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Analyste"
+            android:fontFamily="@font/roboto_condensed"/>
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <!-- Boutons d'action -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_reset_filters"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Réinitialiser"
+            android:fontFamily="@font/roboto_condensed"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_apply_filters"
+            style="@style/Widget.Material3.Button.Filled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Appliquer"
+            android:fontFamily="@font/roboto_condensed"/>
+
+    </LinearLayout>
+
+</LinearLayout>

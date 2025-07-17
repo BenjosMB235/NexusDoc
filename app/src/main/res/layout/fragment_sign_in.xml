@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".ui.authenfication.SignInFragment">
+
+    <!-- Formes décoratives en arrière-plan -->
+    <View
+        android:id="@+id/background_shape_top"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/circular_shape"
+        android:alpha="0.2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="-50dp"
+        android:layout_marginEnd="-50dp" />
+
+    <View
+        android:id="@+id/background_shape_bottom"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:background="@drawable/circular_shape"
+        android:alpha="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="-100dp"
+        android:layout_marginBottom="-100dp" />
+
+    <!-- ScrollView principal -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="32dp"
+            android:gravity="center">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <!-- Logo avec animation -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/logo_container"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginBottom="32dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="@color/cardview_shadow_end_color">
+
+                <ImageView
+                    android:id="@+id/logo_image"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/logo2" />
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Titre avec animation -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/app_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NexusDoc"
+                android:textSize="32sp"
+                android:textColor="@color/textPrimary"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/roboto_condensed" />
+
+            <!-- Sous-titre -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/connection_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Connexion"
+                android:textSize="28sp"
+                android:textColor="@color/textSecondary"
+                android:textStyle="normal"
+                android:layout_marginBottom="48dp"
+                android:fontFamily="@font/roboto_condensed" />
+
+            <!-- Formulaire de connexion -->
+            <LinearLayout
+                android:id="@+id/login_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="32dp">
+
+                <!-- Champ Email -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/email_layout"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:hint="Email"
+                    app:startIconDrawable="@drawable/ic_email"
+                    app:startIconTint="@color/textPrimary"
+                    app:boxStrokeColor="@color/textPrimary"
+                    app:hintTextColor="@color/textSecondary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/email_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:paddingStart="38dp"
+                        android:fontFamily="@font/roboto_condensed"
+                        android:textColor="@color/textPrimary" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Champ Mot de passe -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/password_layout"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:hint="Mot de passe"
+                    app:startIconDrawable="@drawable/ic_lock"
+                    app:startIconTint="@color/textSecondary"
+                    app:endIconMode="password_toggle"
+                    app:boxStrokeColor="@color/textPrimary"
+                    app:hintTextColor="@color/textSecondary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/password_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:paddingStart="38dp"
+                        android:fontFamily="@font/roboto_condensed"
+                        android:textColor="@color/textPrimary" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Lien mot de passe oublié -->
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/forgot_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="Mot de passe oublié ?"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="32dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="8dp"
+                    android:fontFamily="@font/roboto_condensed" />
+
+            </LinearLayout>
+
+            <!-- Bouton de connexion -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/login_button"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Se connecter"
+                android:textSize="16sp"
+                android:textAllCaps="false"
+                style="@style/Widget.Material3.Button.UnelevatedButton"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@color/white"
+                app:cornerRadius="16dp"
+                app:icon="@drawable/ic_arrow_forward"
+                app:iconGravity="end"
+                app:iconTint="@color/white"
+                android:layout_marginBottom="32dp"
+                android:fontFamily="@font/roboto_medium" />
+
+            <!-- Spacer -->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <!-- Lien création de compte -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vous n'avez pas de compte ? "
+                    android:textColor="@color/textPrimary"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/roboto_medium" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/create_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Créer un compte"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="8dp"
+                    android:fontFamily="@font/roboto_condensed" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

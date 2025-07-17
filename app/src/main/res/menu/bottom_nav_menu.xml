@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeFragment"
+        android:title="Accueil"
+        android:icon="@drawable/ic_home"
+        android:checkable="true"/>
+    <item
+        android:id="@+id/archivesFragment"
+        android:title="Archives"
+        android:icon="@drawable/ic_folder"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/analyseFragment"
+        android:title="Analyse"
+        android:icon="@drawable/ic_analyse"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/notificationsFragment"
+        android:title="Notifications"
+        android:icon="@drawable/ic_notification"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/teamFragment"
+        android:title="Equipe"
+        android:icon="@drawable/ic_community"
+        android:checkable="true"/>
+</menu>
