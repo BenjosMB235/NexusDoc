@@ -15,8 +15,10 @@
         android:layout_marginStart="60dp"
         android:layout_marginEnd="16dp"
         app:cardBackgroundColor="?attr/colorPrimaryContainer"
-        app:cardElevation="2dp"
+        app:cardElevation="0dp"
         app:cardCornerRadius="16dp"
+        app:strokeColor="?attr/colorOutlineVariant"
+        app:strokeWidth="1dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -29,56 +31,58 @@
             android:orientation="vertical"
             android:padding="12dp">
 
-            <!-- Message répliqué (optionnel) -->
-            <LinearLayout
+            <!-- Message répliqué -->
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/reply_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="?attr/colorSurface"
-                android:padding="8dp"
                 android:layout_marginBottom="8dp"
                 android:visibility="gone"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardCornerRadius="8dp"
+                app:strokeColor="?attr/colorOutlineVariant"
+                app:strokeWidth="1dp"
                 tools:visibility="visible">
 
-                <TextView
-                    android:id="@+id/reply_sender"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Répondre à John"
-                    android:fontFamily="@font/roboto_condensed"
-                    android:textAppearance="?attr/textAppearanceBodySmall"
-                    android:textColor="?attr/colorPrimary"
-                    android:textStyle="bold" />
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
-                <TextView
-                    android:id="@+id/reply_message"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Message original..."
-                    android:fontFamily="@font/roboto_condensed"
-                    android:textAppearance="?attr/textAppearanceBodySmall"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    android:maxLines="2"
-                    android:ellipsize="end" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/reply_sender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Répondre à John"
+                        android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                        android:textColor="?attr/colorPrimary" />
 
-            </LinearLayout>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/reply_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Message original..."
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:maxLines="2"
+                        android:ellipsize="end" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Contenu du message -->
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/message_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Voici le contenu du message envoyé"
-                android:fontFamily="@font/roboto_condensed"
-                android:textAppearance="?attr/textAppearanceBodyLarge"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                 android:textColor="?attr/colorOnPrimaryContainer"
                 android:textIsSelectable="true"
                 android:autoLink="all"
-                android:linksClickable="true"
-                tools:text="Voici le contenu du message envoyé" />
+                android:linksClickable="true" />
 
-            <!-- Image du message (optionnel) -->
+            <!-- Image du message -->
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/message_image"
                 android:layout_width="match_parent"
@@ -86,58 +90,108 @@
                 android:scaleType="centerCrop"
                 android:layout_marginTop="8dp"
                 android:visibility="gone"
-                app:shapeAppearanceOverlay="@style/RoundedImageView"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.MediumComponent"
                 tools:visibility="visible"
                 tools:src="@drawable/ic_image" />
 
-            <!-- Fichier joint (optionnel) -->
-            <LinearLayout
+            <!-- Fichier joint -->
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/file_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="?attr/colorSurface"
-                android:padding="12dp"
                 android:layout_marginTop="8dp"
                 android:visibility="gone"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardCornerRadius="8dp"
+                app:strokeColor="?attr/colorOutlineVariant"
+                app:strokeWidth="1dp"
                 tools:visibility="visible">
 
-                <ImageView
-                    android:id="@+id/file_icon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_description_24"
-                    app:tint="?attr/colorOnSurface" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:id="@+id/file_icon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_description_24"
+                        app:tint="?attr/colorOnSurface" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="12dp">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/file_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="document.pdf"
+                            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                            android:textColor="?attr/colorOnSurface" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/file_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2.5 MB"
+                            android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Audio -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/audio_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardCornerRadius="8dp"
+                app:strokeColor="?attr/colorOutlineVariant"
+                app:strokeWidth="1dp"
+                tools:visibility="visible">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_marginStart="12dp">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="12dp">
 
-                    <TextView
-                        android:id="@+id/file_name"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/audio_play_button"
+                        style="@style/Widget.Material3.IconButton"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_play_arrow"
+                        app:iconTint="?attr/colorPrimary"
+                        app:iconSize="20dp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="2dp"
+                        android:layout_weight="1"
+                        android:layout_marginHorizontal="12dp"
+                        android:background="?attr/colorPrimary" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/audio_duration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="document.pdf"
-                        android:fontFamily="@font/roboto_condensed"
-                        android:textAppearance="?attr/textAppearanceBodyMedium"
-                        android:textColor="?attr/colorOnSurface" />
-
-                    <TextView
-                        android:id="@+id/file_size"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2.5 MB"
-                        android:fontFamily="@font/roboto_condensed"
-                        android:textAppearance="?attr/textAppearanceBodySmall"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
-
+                        android:text="0:30"
+                        android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                        android:textColor="?attr/colorOnPrimaryContainer" />
                 </LinearLayout>
-
-            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Heure et statut -->
             <LinearLayout
@@ -147,28 +201,22 @@
                 android:gravity="end|center_vertical"
                 android:layout_marginTop="8dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/message_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="14:30"
-                    android:fontFamily="@font/roboto_condensed"
-                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
                     android:textColor="?attr/colorOnPrimaryContainer" />
 
-                <!-- Statut du message (envoyé, délivré, lu) -->
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/message_status"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:src="@drawable/ic_done_all"
                     app:tint="?attr/colorOnPrimaryContainer"
                     android:layout_marginStart="4dp" />
-
             </LinearLayout>
-
         </LinearLayout>
-
     </com.google.android.material.card.MaterialCardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

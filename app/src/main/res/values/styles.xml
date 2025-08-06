@@ -1,48 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="MyBottomNavigationStyle" parent="Widget.MaterialComponents.BottomNavigationView">
-        <!-- Couleur de fond -->
-        <item name="android:background">@color/colorBackground</item>
 
-        <!-- Hauteur personnalisée -->
-        <item name="android:layout_height">72dp</item>
+    <style name="MyBottomNavigationStyle" parent="Widget.Material3.BottomNavigationView">
+        <!-- Couleur de fond plus douce avec élévation -->
+        <item name="android:background">@drawable/bottom_nav_background</item>
 
-        <!-- Gestion des icônes et textes -->
-        <item name="itemIconTint">@drawable/ic_nav_item_selector</item>
-        <item name="itemTextColor">@drawable/text_nav_item_selector</item>
+        <item name="elevation">8dp</item>
 
-        <!-- Visibilité des labels -->
+        <!-- Hauteur réduite pour look moderne -->
+        <item name="android:layout_height">64dp</item>
+
+        <!-- Icônes dynamiques -->
+        <item name="itemIconTint">@drawable/bottom_nav_selector_icon</item>
+        <item name="itemTextColor">@drawable/bottom_nav_selector_text</item>
+        <item name="itemIconSize">24dp</item>
+
+        <!-- 🔥 Fond rectangulaire personnalisé -->
+        <item name="itemBackground">@drawable/bottom_nav_item_background</item>
+
+        <!-- Visibilité et taille du label -->
         <item name="labelVisibilityMode">labeled</item>
 
-        <!-- Taille des icônes -->
-        <item name="itemIconSize">28dp</item>
+        <!-- Ripple plus subtil et élégant -->
+        <item name="itemRippleColor">?attr/colorSecondaryContainer</item>
 
-        <!-- Style du texte -->
-        <item name="itemTextAppearanceActive">@style/MyBottomNavigationTextActive</item>
-        <item name="itemTextAppearanceInactive">@style/MyBottomNavigationTextInactive</item>
+        <!-- Padding uniforme -->
+        <item name="itemPaddingTop">10dp</item>
+        <item name="itemPaddingBottom">10dp</item>
 
-        <!-- Animation des icônes -->
-        <item name="itemRippleColor">@color/colorPrimary</item>
-        <item name="itemPaddingTop">8dp</item>
-        <item name="itemPaddingBottom">8dp</item>
+        <!-- Apparence du texte -->
+        <item name="itemTextAppearanceActive">@style/MyNavTextActive</item>
+        <item name="itemTextAppearanceInactive">@style/MyNavTextInactive</item>
     </style>
 
-    <style name="MyBottomNavigationTextActive" parent="TextAppearance.AppCompat.Caption">
-        <item name="android:textSize">12sp</item>
+    <style name="MyNavTextActive" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textSize">13sp</item>
+        <item name="android:lineSpacingExtra">-2dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">@font/roboto_condensed</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
     </style>
 
-    <style name="MyBottomNavigationTextInactive" parent="TextAppearance.AppCompat.Caption">
-        <item name="android:textSize">11sp</item>
+    <style name="MyNavTextInactive" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textSize">12sp</item>
+        <item name="android:lineSpacingExtra">-2dp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:fontFamily">@font/roboto_condensed</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
     </style>
 
-    <!-- Style du NavigationView -->
-    <style name="MyNavigationViewStyle" parent="Widget.MaterialComponents.NavigationView">
+
+
+    <!-- Style du NavigationView - Material 3 -->
+    <style name="MyNavigationViewStyle" parent="Widget.Material3.NavigationView">
         <!-- Couleur de fond -->
-        <item name="android:background">@color/colorBackground</item>
+        <item name="android:background">?attr/colorSurface</item>
 
         <!-- Couleur des items -->
         <item name="itemIconTint">@drawable/nav_item_icon_selector</item>
@@ -52,175 +64,106 @@
         <item name="itemTextAppearance">@style/MyNavigationItemTextAppearance</item>
 
         <!-- Ripple effect -->
-        <item name="itemRippleColor">@color/colorPrimary</item>
+        <item name="itemRippleColor">?attr/colorPrimaryContainer</item>
 
         <!-- Espacement -->
         <item name="itemHorizontalPadding">24dp</item>
         <item name="itemVerticalPadding">12dp</item>
 
         <!-- Séparateurs -->
-        <!-- Dans votre style MyNavigationViewStyle -->
         <item name="android:divider">@drawable/nav_divider</item>
         <item name="android:dividerHeight">1dp</item>
         <item name="dividerInsetStart">16dp</item>
         <item name="dividerInsetEnd">0dp</item>
     </style>
 
-    <style name="MyNavigationItemTextAppearance" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="MyNavigationItemTextAppearance" parent="TextAppearance.Material3.TitleMedium">
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/roboto_condensed</item>
         <item name="android:letterSpacing">0.01</item>
     </style>
 
-    <style name="AppTheme2" parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <item name="colorPrimary">@color/primary_color</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/primary_color</item>
-        <item name="android:windowBackground">@color/background_color</item>
-        <item name="android:textColorPrimary">@color/text_primary</item>
-        <item name="android:textColorSecondary">@color/text_secondary</item>
+    <!-- Custom Switch Style - Material 3 -->
+    <style name="CustomSwitchStyle" parent="Widget.Material3.CompoundButton.Switch">
+        <item name="trackColor">@color/switch_track_selector</item>
+        <item name="thumbColor">@color/switch_thumb_selector</item>
     </style>
 
-    <!-- Custom Switch Style -->
-    <style name="CustomSwitchStyle" parent="Widget.AppCompat.CompoundButton.Switch">
-        <item name="colorControlActivated">@color/switch_track_on</item>
-        <item name="colorSwitchThumbNormal">@color/switch_thumb</item>
-        <item name="android:colorForeground">@color/switch_track_off</item>
-    </style>
-
-    <!-- Card Style -->
-    <style name="CardStyle">
-        <item name="android:background">@drawable/card_background</item>
-        <item name="android:elevation">2dp</item>
+    <!-- Card Style - Material 3 -->
+    <style name="CardStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">?attr/colorSurfaceContainer</item>
+        <item name="cardElevation">2dp</item>
+        <item name="cardCornerRadius">12dp</item>
         <item name="android:layout_marginBottom">16dp</item>
     </style>
 
     <!-- Section Header Style -->
-    <style name="SectionHeaderStyle">
-        <item name="android:textSize">18sp</item>
+    <style name="SectionHeaderStyle" parent="TextAppearance.Material3.TitleLarge">
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="android:padding">16dp</item>
+        <item name="android:background">?attr/colorSurfaceContainer</item>
     </style>
 
     <!-- Setting Item Style -->
     <style name="SettingItemStyle">
         <item name="android:padding">16dp</item>
-        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
     </style>
 
     <!-- Setting Title Style -->
-    <style name="SettingTitleStyle">
-        <item name="android:textSize">16sp</item>
+    <style name="SettingTitleStyle" parent="TextAppearance.Material3.TitleMedium">
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:fontFamily">@font/roboto_bold_condensed</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 
     <!-- Setting Description Style -->
-    <style name="SettingDescriptionStyle">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/text_secondary</item>
+    <style name="SettingDescriptionStyle" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
     </style>
 
     <!-- FAQ Item Style -->
-    <style name="FAQItemStyle">
+    <style name="FAQItemStyle" parent="ShapeAppearance.Material3.SmallComponent">
         <item name="android:background">@drawable/faq_item_background</item>
         <item name="android:padding">12dp</item>
         <item name="android:layout_marginBottom">8dp</item>
     </style>
 
     <!-- FAQ Question Style -->
-    <style name="FAQQuestionStyle">
-        <item name="android:textSize">14sp</item>
+    <style name="FAQQuestionStyle" parent="TextAppearance.Material3.BodyLarge">
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:fontFamily">@font/roboto_condensed</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="android:layout_marginBottom">4dp</item>
     </style>
 
     <!-- FAQ Answer Style -->
-    <style name="FAQAnswerStyle">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/text_secondary</item>
+    <style name="FAQAnswerStyle" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
     </style>
 
-    <!-- Styles de base Material Design 3 -->
-    <style name="AppTheme" parent="Theme.Material3.DayNight">
-        <item name="colorPrimary">@color/md_theme_light_primary</item>
-        <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
-        <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
-        <item name="colorOnPrimaryContainer">@color/md_theme_light_onPrimaryContainer</item>
-        <item name="colorSecondary">@color/md_theme_light_secondary</item>
-        <item name="colorOnSecondary">@color/md_theme_light_onSecondary</item>
-        <item name="colorSecondaryContainer">@color/md_theme_light_secondaryContainer</item>
-        <item name="colorOnSecondaryContainer">@color/md_theme_light_onSecondaryContainer</item>
-        <item name="colorTertiary">@color/md_theme_light_tertiary</item>
-        <item name="colorOnTertiary">@color/md_theme_light_onTertiary</item>
-        <item name="colorTertiaryContainer">@color/md_theme_light_tertiaryContainer</item>
-        <item name="colorOnTertiaryContainer">@color/md_theme_light_onTertiaryContainer</item>
-        <item name="colorError">@color/md_theme_light_error</item>
-        <item name="colorOnError">@color/md_theme_light_onError</item>
-        <item name="colorErrorContainer">@color/md_theme_light_errorContainer</item>
-        <item name="colorOnErrorContainer">@color/md_theme_light_onErrorContainer</item>
-        <item name="colorSurface">@color/md_theme_light_surface</item>
-        <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
-        <item name="colorSurfaceVariant">@color/md_theme_light_surfaceVariant</item>
-        <item name="colorOnSurfaceVariant">@color/md_theme_light_onSurfaceVariant</item>
-        <item name="colorSurfaceContainer">@color/md_theme_light_surfaceContainer</item>
-        <item name="colorOutline">@color/md_theme_light_outline</item>
-        <item name="colorOutlineVariant">@color/md_theme_light_outlineVariant</item>
-
-        <!-- Pour le menu overflow (3 points) -->
-        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
-        <!-- Pour les items du menu -->
-        <item name="android:itemBackground">@color/colorBackground</item>
-        <item name="android:textColor">@color/textPrimary</item>
-        <item name="android:fontFamily">@font/roboto_condensed</item>
-    </style>
-
-    <style name="OverflowMenuStyle" parent="Widget.AppCompat.PopupMenu.Overflow">
-        <item name="android:popupBackground">@color/colorBackground</item>
-    </style>
-
-    <!-- Styles pour les avatars -->
-    <style name="ShapeAppearanceOverlay.Material3.Corner.Full" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">50%</item>
-    </style>
-
+    <!-- Styles pour les boutons -->
     <style name="Widget.Material3.Button.Filled" parent="Widget.Material3.Button">
         <item name="backgroundTint">?attr/colorPrimary</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="rippleColor">?attr/colorOnPrimary</item>
-        <item name="android:elevation">0dp</item>
-        <item name="android:stateListAnimator">@null</item>
     </style>
 
     <style name="Widget.Material3.Button.Outlined" parent="Widget.Material3.Button">
-        <item name="android:background">@drawable/btn_outlined_background</item>
         <item name="android:textColor">?attr/colorPrimary</item>
-        <item name="rippleColor">?attr/colorPrimary</item>
+        <item name="rippleColor">?attr/colorPrimaryContainer</item>
         <item name="strokeColor">?attr/colorOutline</item>
         <item name="strokeWidth">1dp</item>
-        <item name="android:elevation">0dp</item>
-        <item name="android:stateListAnimator">@null</item>
-    </style>
-
-    <style name="Widget.Material3.Button.Filled.Tonal" parent="Widget.Material3.Button">
-        <item name="backgroundTint">?attr/colorSecondaryContainer</item>
-        <item name="android:textColor">?attr/colorOnSecondaryContainer</item>
-        <item name="rippleColor">?attr/colorOnSecondaryContainer</item>
-        <item name="android:elevation">0dp</item>
-        <item name="android:stateListAnimator">@null</item>
     </style>
 
     <!-- Styles pour les cartes de messages -->
-    <style name="MessageCard">
+    <style name="MessageCard" parent="Widget.MaterialComponents.CardView">
         <item name="cardBackgroundColor">?attr/colorSurfaceVariant</item>
         <item name="cardElevation">2dp</item>
         <item name="cardCornerRadius">16dp</item>
-        <item name="cardUseCompatPadding">true</item>
     </style>
 
     <style name="MessageCard.Sent">
@@ -229,24 +172,6 @@
 
     <style name="MessageCard.Received">
         <item name="cardBackgroundColor">?attr/colorSurfaceVariant</item>
-    </style>
-
-    <!-- Styles pour les images -->
-    <style name="CircularImageView">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">50%</item>
-    </style>
-
-    <style name="RoundedImageView">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">8dp</item>
-    </style>
-
-    <!-- Style pour les cartes -->
-    <style name="AppCard" parent="Widget.MaterialComponents.CardView">
-        <item name="cardCornerRadius">12dp</item>
-        <item name="cardElevation">4dp</item>
-        <item name="cardBackgroundColor">@color/card_background</item>
     </style>
 
     <!-- Style pour les dialogues personnalisés -->
@@ -258,25 +183,108 @@
     </style>
 
     <style name="CustomAlertDialog.Title" parent="MaterialAlertDialog.Material3.Title.Text">
-        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="CustomAlertDialog.Body" parent="MaterialAlertDialog.Material3.Body.Text">
-        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
         <item name="android:textSize">16sp</item>
         <item name="android:lineSpacingExtra">4dp</item>
     </style>
 
     <style name="CustomAlertDialog.PositiveButton" parent="Widget.Material3.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/primary_color</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="CustomAlertDialog.NegativeButton" parent="Widget.Material3.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <style name="CircularImageView" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <!-- Style pour les boutons icônes Material 3 -->
+    <style name="Widget.Material3.IconButton" parent="Widget.Material3.Button.Icon">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:backgroundTint">@null</item>
+        <item name="backgroundTint">@null</item>
+        <item name="rippleColor">?attr/colorOnSurface</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="iconSize">24dp</item>
+        <item name="iconPadding">0dp</item>
+        <item name="iconTint">?attr/colorOnSurfaceVariant</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.ExtraSmallComponent</item>
+
+    </style>
+
+    <style name="ShapeAppearance.ExtraSmallComponent" parent="ShapeAppearance.Material3.Corner.Small">
+        <item name="cornerSize">8dp</item> <!-- ou ce que tu veux -->
     </style>
 
 
+    <!-- Variante avec une taille plus petite -->
+    <style name="Widget.Material3.IconButton.Small" parent="Widget.Material3.IconButton">
+        <item name="android:minWidth">40dp</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:padding">8dp</item>
+        <item name="iconSize">20dp</item>
+    </style>
+
+    <!-- Style pour le ShapeAppearance de l'icône de sélection -->
+    <style name="ShapeAppearance.Material3.SmallComponent.Full" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <!-- Variante pour les actions importantes -->
+    <style name="Widget.Material3.IconButton.Important" parent="Widget.Material3.IconButton">
+        <item name="iconTint">?attr/colorPrimary</item>
+        <item name="rippleColor">?attr/colorPrimaryContainer</item>
+    </style>
+
+    <style name="ThemeOverlay.Material3.DarkActionBar" parent="ThemeOverlay.Material3.Dark">
+        <!-- Couleurs de l'AppBar -->
+        <item name="colorPrimary">@color/af_blue</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+
+        <!-- Couleurs pour les menus et popups -->
+        <item name="colorSurface">@color/surface_variant</item>
+        <item name="colorOnSurface">@color/on_surface_variant</item>
+
+        <!-- Style du texte du titre -->
+        <item name="actionBarTheme">@style/ThemeOverlay.AirFrance.ActionBar.TitleText</item>
+
+        <!-- Style des tooltips -->
+        <item name="tooltipStyle">@style/Widget.AirFrance.Tooltip</item>
+
+        <!-- Couleur de l'icône de navigation (si présente) -->
+        <item name="colorControlNormal">@color/on_primary</item>
+    </style>
+
+    <style name="ThemeOverlay.AirFrance.ActionBar.TitleText">
+        <item name="android:textAppearance">?attr/textAppearanceHeadlineSmall</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="ThemeOverlay.AirFrance.ActionBar" parent="ThemeOverlay.Material3.DarkActionBar">
+        <item name="colorPrimary">@color/af_blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="actionBarTheme">@style/ThemeOverlay.AirFrance.ActionBar.TitleText</item>
+    </style>
+
+
+    <style name="Widget.AirFrance.Tooltip" parent="Widget.Material3.Tooltip">
+        <item name="android:textColor">@color/on_surface</item>
+        <item name="backgroundTint">@color/surface</item>
+    </style>
 </resources>

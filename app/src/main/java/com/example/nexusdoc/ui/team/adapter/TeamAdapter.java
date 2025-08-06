@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.example.nexusdoc.ui.profile.repository.ProfileRepository;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.example.nexusdoc.R;
 import com.example.nexusdoc.ui.data.models.User;
@@ -66,7 +67,7 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamViewHolder
         private TextView tvRole;
         private TextView tvLastActivity;
         private MaterialButton btnMenu;
-        private LinearLayout layoutBadges;
+        private ChipGroup layoutBadges;
         private LinearLayout layoutActions;
         private Chip chipManager;
         private Chip chipAdmin;

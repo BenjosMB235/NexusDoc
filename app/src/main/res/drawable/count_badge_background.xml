@@ -1,6 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="@color/badge_background" />
+
+    <!-- Couleur de fond dynamique pour badge -->
+    <solid android:color="?attr/colorPrimary" />
+
+    <!-- Coins arrondis (type badge) -->
     <corners android:radius="10dp" />
 </shape>

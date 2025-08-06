@@ -10,7 +10,6 @@ public class DocumentSection {
     private String color;
     private boolean isExpanded;
     private List<String> currentPath;
-    private ArchiveFolder currentFolder;
     private int documentCount;
 
     public DocumentSection(String id, String title, int iconResource, String color) {
@@ -30,25 +29,20 @@ public class DocumentSection {
     public String getColor() { return color; }
     public boolean isExpanded() { return isExpanded; }
     public List<String> getCurrentPath() { return currentPath; }
-    public ArchiveFolder getCurrentFolder() { return currentFolder; }
     public int getDocumentCount() { return documentCount; }
 
     // Setters
-    public void setExpanded(boolean expanded) { this.isExpanded = expanded; }
+    public void setExpanded(boolean expanded) { isExpanded = expanded; }
     public void setCurrentPath(List<String> currentPath) { this.currentPath = currentPath; }
-    public void setCurrentFolder(ArchiveFolder currentFolder) { this.currentFolder = currentFolder; }
     public void setDocumentCount(int documentCount) { this.documentCount = documentCount; }
 
     public void toggleExpansion() {
         this.isExpanded = !this.isExpanded;
     }
 
-    public boolean isInRootFolder() {
-        return currentFolder == null;
-    }
 
     public String getBreadcrumbPath() {
-        if (currentPath.isEmpty()) {
+        if (currentPath == null || currentPath.isEmpty()) {
             return title;
         }
         StringBuilder path = new StringBuilder(title);
@@ -58,5 +52,30 @@ public class DocumentSection {
             }
         }
         return path.toString();
+    }
+
+    public void addToPath(String folderName) {
+        if (!currentPath.contains(folderName)) {
+            currentPath.add(folderName);
+        }
+    }
+
+    public void removeFromPath(int levels) {
+        if (levels > 0 && !currentPath.isEmpty()) {
+            int newSize = Math.max(0, currentPath.size() - levels);
+            currentPath = new ArrayList<>(currentPath.subList(0, newSize));
+        }
+    }
+
+    public void resetPath() {
+        currentPath.clear();
+    }
+
+    public boolean hasDocuments() {
+        return documentCount > 0;
+    }
+
+    public String getDisplayInfo() {
+        return documentCount + " document" + (documentCount > 1 ? "s" : "");
     }
 }

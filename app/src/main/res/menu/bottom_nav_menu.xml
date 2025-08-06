@@ -6,7 +6,7 @@
         android:icon="@drawable/ic_home"
         android:checkable="true"/>
     <item
-        android:id="@+id/archivesFragment"
+        android:id="@+id/gedFragment"
         android:title="Archives"
         android:icon="@drawable/ic_folder"
         android:checkable="true"/>

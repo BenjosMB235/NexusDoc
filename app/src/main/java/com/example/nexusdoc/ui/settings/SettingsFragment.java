@@ -1,13 +1,10 @@
 package com.example.nexusdoc.ui.settings;
 
 import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +13,8 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-
+import com.example.nexusdoc.BaseActivity;
 import com.example.nexusdoc.R;
 import com.google.android.material.materialswitch.MaterialSwitch;
 
@@ -29,7 +25,6 @@ public class SettingsFragment extends Fragment {
     // UI Components
     private MaterialSwitch themeSwitch;
     private MaterialSwitch notificationsSwitch;
-    private RadioGroup languageRadioGroup;
     private RadioButton radioFrench, radioEnglish, radioSpanish;
     private TextView themeStatus, notificationsStatus;
     private ImageView themeIcon, notificationsIcon, helpArrow;
@@ -71,7 +66,6 @@ public class SettingsFragment extends Fragment {
         notificationsIcon = view.findViewById(R.id.notifications_icon);
 
         // Language components
-        languageRadioGroup = view.findViewById(R.id.language_radio_group);
         radioFrench = view.findViewById(R.id.radio_french);
         radioEnglish = view.findViewById(R.id.radio_english);
         radioSpanish = view.findViewById(R.id.radio_spanish);
@@ -92,31 +86,39 @@ public class SettingsFragment extends Fragment {
         themeContainer.setOnClickListener(v -> viewModel.toggleTheme());
         notificationsContainer.setOnClickListener(v -> viewModel.toggleNotifications());
         helpHeader.setOnClickListener(v -> toggleHelpSection());
-        frenchOption.setOnClickListener(v -> {
-            radioFrench.setChecked(true);
-            viewModel.setLanguage("fr");
-        });
-        englishOption.setOnClickListener(v -> {
-            radioEnglish.setChecked(true);
-            viewModel.setLanguage("en");
-        });
-        spanishOption.setOnClickListener(v -> {
-            radioSpanish.setChecked(true);
-            viewModel.setLanguage("es");
-        });
+
+        // Language selection listeners
+        frenchOption.setOnClickListener(v -> selectLanguage("fr"));
+        englishOption.setOnClickListener(v -> selectLanguage("en"));
+        spanishOption.setOnClickListener(v -> selectLanguage("es"));
     }
 
     private void setupListeners() {
-        // Language radio group listener
-        languageRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            String language = "fr";
-            if (checkedId == R.id.radio_english) {
-                language = "en";
-            } else if (checkedId == R.id.radio_spanish) {
-                language = "es";
-            }
-            viewModel.setLanguage(language);
-        });
+        // Plus besoin de listeners sur RadioGroup puisqu'on le supprime
+        // La gestion se fait maintenant via les LinearLayout containers
+    }
+
+    private void selectLanguage(String languageCode) {
+        // Décocher tous les radio buttons
+        radioFrench.setChecked(false);
+        radioEnglish.setChecked(false);
+        radioSpanish.setChecked(false);
+
+        // Cocher le bon radio button
+        switch (languageCode) {
+            case "en":
+                radioEnglish.setChecked(true);
+                break;
+            case "es":
+                radioSpanish.setChecked(true);
+                break;
+            default:
+                radioFrench.setChecked(true);
+                break;
+        }
+
+        // Appliquer le changement via le ViewModel
+        viewModel.setLanguage(languageCode);
     }
 
     private void observeViewModel() {
@@ -143,11 +145,12 @@ public class SettingsFragment extends Fragment {
             updateLanguageUI(language);
         });
 
-        // Observe activity recreation signal
-        viewModel.shouldRecreateActivity().observe(getViewLifecycleOwner(), shouldRecreate -> {
-            if (shouldRecreate && getActivity() != null) {
-                getActivity().recreate();
-                viewModel.onActivityRecreated();
+        // Observe language change signal
+        viewModel.languageChanged().observe(getViewLifecycleOwner(), newLanguage -> {
+            if (newLanguage != null && getActivity() instanceof BaseActivity) {
+                // Use BaseActivity method for proper language change
+                ((BaseActivity) getActivity()).changeLanguageAndRecreate(newLanguage);
+                viewModel.onLanguageChangeHandled();
             }
         });
     }
@@ -173,9 +176,12 @@ public class SettingsFragment extends Fragment {
     }
 
     private void updateLanguageUI(String language) {
-        // Remove listener temporarily to avoid infinite loop
-        languageRadioGroup.setOnCheckedChangeListener(null);
+        // Décocher tous les radio buttons
+        radioFrench.setChecked(false);
+        radioEnglish.setChecked(false);
+        radioSpanish.setChecked(false);
 
+        // Cocher le bon selon la langue
         switch (language) {
             case "en":
                 radioEnglish.setChecked(true);
@@ -187,17 +193,6 @@ public class SettingsFragment extends Fragment {
                 radioFrench.setChecked(true);
                 break;
         }
-
-        // Restore listener
-        languageRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            String selectedLanguage = "fr";
-            if (checkedId == R.id.radio_english) {
-                selectedLanguage = "en";
-            } else if (checkedId == R.id.radio_spanish) {
-                selectedLanguage = "es";
-            }
-            viewModel.setLanguage(selectedLanguage);
-        });
     }
 
     private void toggleHelpSection() {

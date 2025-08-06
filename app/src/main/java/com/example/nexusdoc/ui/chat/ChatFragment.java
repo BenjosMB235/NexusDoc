@@ -1,10 +1,26 @@
 package com.example.nexusdoc.ui.chat;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +30,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nexusdoc.ui.chat.adapter.MessageAdapter;
+import com.example.nexusdoc.ui.chat.utils.AudioRecorderManager;
+import com.example.nexusdoc.ui.chat.utils.FileUtils;
 import com.example.nexusdoc.ui.profile.repository.ProfileRepository;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -30,7 +54,24 @@ import com.example.nexusdoc.R;
 import com.example.nexusdoc.ui.data.models.Message;
 import com.example.nexusdoc.ui.data.models.User;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChatFragment extends Fragment implements MessageAdapter.OnMessageClickListener {
+    private static final int REQUEST_CAMERA = 100;
+    private static final int REQUEST_GALLERY = 101;
+    private static final int REQUEST_DOCUMENT = 102;
+    private static final int REQUEST_PERMISSIONS = 103;
+
+    private static final String[] REQUIRED_PERMISSIONS = {
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+    };
+
     private ChatViewModel viewModel;
     private MessageAdapter adapter;
     private RecyclerView recyclerMessages;
@@ -47,12 +88,24 @@ public class ChatFragment extends Fragment implements MessageAdapter.OnMessageCl
     private ShapeableImageView avatarImage;
     private MaterialToolbar toolbar;
 
+    // Reply functionality
+    private LinearLayout replyPreviewContainer;
+    private TextView replyPreviewSender;
+    private TextView replyPreviewMessage;
+    private ImageView btnCancelReply;
+    private Message replyToMessage = null;
+
     private String otherUserId;
     private String otherUserName;
     private String otherUserAvatar;
     private Handler typingHandler;
     private Runnable typingRunnable;
     private boolean isTyping = false;
+
+    // Audio recording
+    private AudioRecorderManager audioManager;
+    private boolean isRecordingAudio = false;
+    private MediaPlayer mediaPlayer;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +117,8 @@ public class ChatFragment extends Fragment implements MessageAdapter.OnMessageCl
             otherUserName = getArguments().getString("userName");
             otherUserAvatar = getArguments().getString("userAvatar");
         }
+
+        audioManager = new AudioRecorderManager(getContext());
     }
 
     @Override
@@ -79,6 +134,7 @@ public class ChatFragment extends Fragment implements MessageAdapter.OnMessageCl
         setupViewModel();
         setupRecyclerView();
         setupListeners();
+        checkPermissions();
 
         // Initialiser le chat
         if (otherUserId != null) {
@@ -102,7 +158,13 @@ public class ChatFragment extends Fragment implements MessageAdapter.OnMessageCl
         avatarImage = view.findViewById(R.id.avatar_image);
         toolbar = view.findViewById(R.id.toolbar);
 
-        typingHandler = new Handler();
+        // Reply preview views
+        replyPreviewContainer = view.findViewById(R.id.reply_preview_container);
+        replyPreviewSender = view.findViewById(R.id.reply_preview_sender);
+        replyPreviewMessage = view.findViewById(R.id.reply_preview_message);
+        btnCancelReply = view.findViewById(R.id.btn_cancel_reply);
+
+        typingHandler = new Handler(Looper.getMainLooper());
     }
 
     private void setupRecyclerView() {
@@ -203,7 +265,7 @@ public class ChatFragment extends Fragment implements MessageAdapter.OnMessageCl
                 editMessage.setText("");
             } else {
                 // Enregistrement audio
-                startVoiceRecording();
+                handleVoiceRecording();
             }
         });
 
@@ -229,6 +291,26 @@ public class ChatFragment extends Fragment implements MessageAdapter.OnMessageCl
         fabScrollDown.setOnClickListener(v -> {
             recyclerMessages.smoothScrollToPosition(adapter.getItemCount() - 1);
         });
+
+        // Reply cancel button
+        if (btnCancelReply != null) {
+            btnCancelReply.setOnClickListener(v -> cancelReplyMode());
+        }
+    }
+
+    private void checkPermissions() {
+        List<String> permissionsNeeded = new ArrayList<>();
+
+        for (String permission : REQUIRED_PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(getContext(), permission) != PackageManager.PERMISSION_GRANTED) {
+                permissionsNeeded.add(permission);
+            }
+        }
+
+        if (!permissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(getActivity(),
+                    permissionsNeeded.toArray(new String[0]), REQUEST_PERMISSIONS);
+        }
     }
 
     private void loadBase64Avatar(String base64Image, ImageView target) {
@@ -244,19 +326,12 @@ public class ChatFragment extends Fragment implements MessageAdapter.OnMessageCl
         }
     }
 
-
     private void setupUserInfo() {
         if (otherUserName != null) {
             contactName.setText(otherUserName);
         }
 
         if (otherUserAvatar != null) {
-            // Charger l'avatar avec Glide
-            /*com.bumptech.glide.Glide.with(this)
-                    .load(otherUserAvatar)
-                    .placeholder(R.drawable.default_avatar)
-                    .into(avatarImage);*/
-            // Si l'avatar est en base64, charge-le en Bitmap
             loadBase64Avatar(otherUserAvatar, avatarImage);
         } else {
             avatarImage.setImageResource(R.drawable.default_avatar);
@@ -268,10 +343,6 @@ public class ChatFragment extends Fragment implements MessageAdapter.OnMessageCl
         contactStatus.setText(getStatusText(user.getStatus()));
 
         if (user.getProfileImageBase64() != null) {
-           /* com.bumptech.glide.Glide.with(this)
-                    .load(user.getProfileImageBase64())
-                    .placeholder(R.drawable.default_avatar)
-                    .into(avatarImage);*/
             loadBase64Avatar(user.getProfileImageBase64(), avatarImage);
         }
     }
@@ -318,7 +389,12 @@ public class ChatFragment extends Fragment implements MessageAdapter.OnMessageCl
     }
 
     private void sendMessage(String message) {
-        viewModel.sendMessage(message);
+        if (replyToMessage != null) {
+            viewModel.replyToMessage(replyToMessage, message);
+            cancelReplyMode();
+        } else {
+            viewModel.sendMessage(message);
+        }
 
         // Arrêter le statut de frappe
         if (isTyping) {
@@ -327,37 +403,192 @@ public class ChatFragment extends Fragment implements MessageAdapter.OnMessageCl
         }
     }
 
+    private void handleVoiceRecording() {
+        if (!isRecordingAudio) {
+            startVoiceRecording();
+        } else {
+            stopVoiceRecording();
+        }
+    }
+
     private void startVoiceRecording() {
-        // Implémenter l'enregistrement audio
-        Toast.makeText(getContext(), "Fonction d'enregistrement audio à implémenter", Toast.LENGTH_SHORT).show();
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(getContext(), "Permission d'enregistrement audio requise", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            audioManager.startRecording();
+            isRecordingAudio = true;
+            btnSendVoice.setIcon(getContext().getDrawable(R.drawable.ic_stop));
+            btnSendVoice.setBackgroundTintList(getContext().getColorStateList(R.color.colorError));
+            Toast.makeText(getContext(), "Enregistrement en cours...", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Erreur lors de l'enregistrement", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void stopVoiceRecording() {
+        try {
+            String audioPath = audioManager.stopRecording();
+            isRecordingAudio = false;
+            btnSendVoice.setIcon(getContext().getDrawable(R.drawable.ic_mic));
+            btnSendVoice.setBackgroundTintList(getContext().getColorStateList(R.color.primary));
+
+            if (audioPath != null) {
+                sendAudioMessage(audioPath);
+            }
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Erreur lors de l'arrêt de l'enregistrement", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void sendAudioMessage(String audioPath) {
+        try {
+            String base64Audio = FileUtils.fileToBase64(audioPath);
+            long fileSize = FileUtils.getFileSize(audioPath);
+
+            Message.FileAttachment audioAttachment = new Message.FileAttachment(
+                    "audio_" + System.currentTimeMillis() + ".3gp",
+                    base64Audio,
+                    "audio/3gp",
+                    fileSize
+            );
+
+            List<Message.FileAttachment> attachments = new ArrayList<>();
+            attachments.add(audioAttachment);
+
+            viewModel.sendAudioMessage(attachments);
+
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Erreur lors de l'envoi de l'audio", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showAttachmentOptions() {
-        // Afficher les options de pièce jointe
-        com.google.android.material.bottomsheet.BottomSheetDialog dialog =
-                new com.google.android.material.bottomsheet.BottomSheetDialog(getContext());
+        BottomSheetDialog dialog = new BottomSheetDialog(getContext());
         View view = LayoutInflater.from(getContext()).inflate(R.layout.bottom_sheet_attachment, null);
 
         view.findViewById(R.id.btn_camera).setOnClickListener(v -> {
             dialog.dismiss();
-            // Ouvrir l'appareil photo
-            Toast.makeText(getContext(), "Ouvrir l'appareil photo", Toast.LENGTH_SHORT).show();
+            openCamera();
         });
 
         view.findViewById(R.id.btn_gallery).setOnClickListener(v -> {
             dialog.dismiss();
-            // Ouvrir la galerie
-            Toast.makeText(getContext(), "Ouvrir la galerie", Toast.LENGTH_SHORT).show();
+            openGallery();
         });
 
         view.findViewById(R.id.btn_document).setOnClickListener(v -> {
             dialog.dismiss();
-            // Ouvrir le sélecteur de fichiers
-            Toast.makeText(getContext(), "Sélectionner un fichier", Toast.LENGTH_SHORT).show();
+            openDocumentPicker();
         });
 
         dialog.setContentView(view);
         dialog.show();
+    }
+
+    private void openCamera() {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(getContext(), "Permission caméra requise", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(intent, REQUEST_CAMERA);
+        }
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_GALLERY);
+    }
+
+    private void openDocumentPicker() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(intent, REQUEST_DOCUMENT);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CAMERA:
+                    if (data != null && data.getExtras() != null) {
+                        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                        String base64Image = bitmapToBase64(bitmap);
+                        viewModel.sendImageMessage(base64Image, "");
+                    }
+                    break;
+
+                case REQUEST_GALLERY:
+                    if (data != null && data.getData() != null) {
+                        Uri imageUri = data.getData();
+                        String base64Image = uriToBase64(imageUri);
+                        if (base64Image != null) {
+                            viewModel.sendImageMessage(base64Image, "");
+                        }
+                    }
+                    break;
+
+                case REQUEST_DOCUMENT:
+                    if (data != null && data.getData() != null) {
+                        Uri fileUri = data.getData();
+                        sendFileMessage(fileUri);
+                    }
+                    break;
+            }
+        }
+    }
+
+    private String bitmapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
+
+    private String uriToBase64(Uri uri) {
+        try {
+            InputStream inputStream = getContext().getContentResolver().openInputStream(uri);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            return bitmapToBase64(bitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void sendFileMessage(Uri fileUri) {
+        try {
+            String fileName = FileUtils.getFileName(getContext(), fileUri);
+            String fileType = getContext().getContentResolver().getType(fileUri);
+            long fileSize = FileUtils.getFileSize(getContext(), fileUri);
+
+            // Convertir le fichier en base64 pour Firebase
+            String base64File = FileUtils.uriToBase64(getContext(), fileUri);
+
+            if (base64File != null) {
+                Message.FileAttachment attachment = new Message.FileAttachment(
+                        fileName, base64File, fileType, fileSize
+                );
+
+                List<Message.FileAttachment> attachments = new ArrayList<>();
+                attachments.add(attachment);
+
+                viewModel.sendFileMessage(attachments, "");
+            }
+
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Erreur lors de l'envoi du fichier", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showMoreOptions(View view) {
@@ -367,15 +598,12 @@ public class ChatFragment extends Fragment implements MessageAdapter.OnMessageCl
             int id = item.getItemId();
 
             if (id == R.id.action_view_profile) {
-                // Voir le profil
-                Toast.makeText(getContext(), "Voir le profil", Toast.LENGTH_SHORT).show();
+                openUserProfile();
                 return true;
             } else if (id == R.id.action_clear_chat) {
-                // Effacer le chat
                 showClearChatConfirmation();
                 return true;
             } else if (id == R.id.action_block_user) {
-                // Bloquer l'utilisateur
                 showBlockUserConfirmation();
                 return true;
             } else {
@@ -385,12 +613,25 @@ public class ChatFragment extends Fragment implements MessageAdapter.OnMessageCl
 
         popup.show();
     }
+
+    private void openUserProfile() {
+        try {
+            Bundle args = new Bundle();
+            args.putString("userId", otherUserId);
+
+            NavController navController = Navigation.findNavController(requireView());
+            navController.navigate(R.id.action_chat_to_profile, args);
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Impossible d'ouvrir le profil", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void showClearChatConfirmation() {
-        new androidx.appcompat.app.AlertDialog.Builder(getContext())
+        new AlertDialog.Builder(getContext())
                 .setTitle("Effacer le chat")
                 .setMessage("Êtes-vous sûr de vouloir effacer tous les messages ?")
                 .setPositiveButton("Effacer", (dialog, which) -> {
-                    // Implémenter l'effacement du chat
+                    viewModel.clearChat(otherUserId);
                     Toast.makeText(getContext(), "Chat effacé", Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton("Annuler", null)
@@ -398,15 +639,36 @@ public class ChatFragment extends Fragment implements MessageAdapter.OnMessageCl
     }
 
     private void showBlockUserConfirmation() {
-        new androidx.appcompat.app.AlertDialog.Builder(getContext())
+        new AlertDialog.Builder(getContext())
                 .setTitle("Bloquer l'utilisateur")
                 .setMessage("Êtes-vous sûr de vouloir bloquer " + otherUserName + " ?")
                 .setPositiveButton("Bloquer", (dialog, which) -> {
-                    // Implémenter le blocage
+                    viewModel.blockUser(otherUserId);
                     Toast.makeText(getContext(), "Utilisateur bloqué", Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton("Annuler", null)
                 .show();
+    }
+
+    // Reply functionality
+    private void startReplyMode(Message message) {
+        replyToMessage = message;
+
+        if (replyPreviewContainer != null) {
+            replyPreviewContainer.setVisibility(View.VISIBLE);
+            replyPreviewSender.setText("Répondre à " + message.getSenderName());
+            replyPreviewMessage.setText(message.getContent());
+        }
+
+        // Focus sur le champ de saisie
+        editMessage.requestFocus();
+    }
+
+    private void cancelReplyMode() {
+        replyToMessage = null;
+        if (replyPreviewContainer != null) {
+            replyPreviewContainer.setVisibility(View.GONE);
+        }
     }
 
     // Implémentation des callbacks de MessageAdapter
@@ -424,43 +686,94 @@ public class ChatFragment extends Fragment implements MessageAdapter.OnMessageCl
     @Override
     public void onImageClick(Message message) {
         // Ouvrir l'image en plein écran
-        Toast.makeText(getContext(), "Ouvrir l'image", Toast.LENGTH_SHORT).show();
+        openImageFullScreen(message);
     }
 
     @Override
     public void onFileClick(Message message) {
         // Ouvrir le fichier
+        openFile(message);
+    }
+
+    @Override
+    public void onAudioClick(Message message) {
+        // Jouer l'audio
+        playAudio(message);
+    }
+
+    private void openImageFullScreen(Message message) {
+        // Implémenter l'ouverture d'image en plein écran
+        Toast.makeText(getContext(), "Ouvrir l'image en plein écran", Toast.LENGTH_SHORT).show();
+    }
+
+    private void openFile(Message message) {
+        // Implémenter l'ouverture de fichier
         Toast.makeText(getContext(), "Ouvrir le fichier", Toast.LENGTH_SHORT).show();
+    }
+
+    private void playAudio(Message message) {
+        try {
+            if (mediaPlayer != null) {
+                mediaPlayer.release();
+            }
+
+            if (message.getAttachments() != null && !message.getAttachments().isEmpty()) {
+                Message.FileAttachment audioAttachment = message.getAttachments().get(0);
+                String audioPath = FileUtils.base64ToTempFile(getContext(),
+                        audioAttachment.getFileUrl(), "temp_audio.3gp");
+
+                mediaPlayer = new MediaPlayer();
+                mediaPlayer.setDataSource(audioPath);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+
+                Toast.makeText(getContext(), "Lecture audio...", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Erreur lors de la lecture audio", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showMessageContextMenu(Message message) {
         String[] options = {"Répondre", "Copier", "Supprimer", "Transférer"};
 
-        new androidx.appcompat.app.AlertDialog.Builder(getContext())
+        new AlertDialog.Builder(getContext())
                 .setItems(options, (dialog, which) -> {
                     switch (which) {
                         case 0: // Répondre
-                            // Implémenter la réponse
-                            Toast.makeText(getContext(), "Répondre au message", Toast.LENGTH_SHORT).show();
+                            startReplyMode(message);
                             break;
                         case 1: // Copier
-                            // Copier le message
-                            android.content.ClipboardManager clipboard =
-                                    (android.content.ClipboardManager) getContext().getSystemService(android.content.Context.CLIPBOARD_SERVICE);
-                            android.content.ClipData clip = android.content.ClipData.newPlainText("Message", message.getContent());
-                            clipboard.setPrimaryClip(clip);
-                            Toast.makeText(getContext(), "Message copié", Toast.LENGTH_SHORT).show();
+                            copyMessageToClipboard(message);
                             break;
                         case 2: // Supprimer
-                            // Supprimer le message
-                            Toast.makeText(getContext(), "Supprimer le message", Toast.LENGTH_SHORT).show();
+                            showDeleteConfirmation(message);
                             break;
                         case 3: // Transférer
-                            // Transférer le message
+                            // Implémenter le transfert
                             Toast.makeText(getContext(), "Transférer le message", Toast.LENGTH_SHORT).show();
                             break;
                     }
                 })
+                .show();
+    }
+
+    private void copyMessageToClipboard(Message message) {
+        ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("Message", message.getContent());
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(getContext(), "Message copié", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showDeleteConfirmation(Message message) {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Supprimer le message")
+                .setMessage("Êtes-vous sûr de vouloir supprimer ce message ?")
+                .setPositiveButton("Supprimer", (dialog, which) -> {
+                    viewModel.deleteMessage(message.getId());
+                    Toast.makeText(getContext(), "Message supprimé", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Annuler", null)
                 .show();
     }
 
@@ -474,6 +787,16 @@ public class ChatFragment extends Fragment implements MessageAdapter.OnMessageCl
         // Arrêter le statut de frappe
         if (isTyping) {
             viewModel.setTypingStatus(false);
+        }
+
+        // Libérer les ressources audio
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+
+        if (audioManager != null) {
+            audioManager.release();
         }
     }
 }

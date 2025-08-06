@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/bg_bottom_sheet"
-    android:padding="16dp"
+    android:background="?attr/colorSurfaceContainer"
+    android:padding="24dp"
     app:behavior_hideable="true"
     app:behavior_peekHeight="0dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
@@ -21,21 +21,19 @@
         android:backgroundTint="?attr/colorOnSurfaceVariant" />
 
     <!-- Titre -->
-    <TextView
-        android:layout_width="wrap_content"
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Filtres et tri"
-        android:fontFamily="@font/roboto_condensed"
-        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
         android:textColor="?attr/colorOnSurface"
         android:layout_marginBottom="24dp" />
 
-    <!-- Tri -->
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- Section Tri -->
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Trier par"
-        android:fontFamily="@font/roboto_condensed"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
         android:textColor="?attr/colorOnSurface"
         android:layout_marginBottom="12dp" />
@@ -46,7 +44,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         app:singleSelection="true"
-        app:chipSpacingHorizontal="8dp">
+        app:selectionRequired="true"
+        app:chipSpacingHorizontal="8dp"
+        app:chipSpacingVertical="8dp">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_sort_name"
@@ -54,37 +54,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nom"
-            android:checked="true" />
+            android:checked="true"
+            app:chipBackgroundColor="@color/chip_background_selector" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_sort_role"
             style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rôle" />
+            android:text="Rôle"
+            app:chipBackgroundColor="@color/chip_background_selector" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_sort_activity"
             style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Activité récente" />
+            android:text="Activité récente"
+            app:chipBackgroundColor="@color/chip_background_selector" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_sort_joined"
             style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Date d'ajout" />
-
+            android:text="Date d'ajout"
+            app:chipBackgroundColor="@color/chip_background_selector" />
     </com.google.android.material.chip.ChipGroup>
 
-    <!-- Filtres de statut -->
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- Section Statut -->
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Statut"
-        android:fontFamily="@font/roboto_condensed"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
         android:textColor="?attr/colorOnSurface"
         android:layout_marginBottom="12dp" />
@@ -95,7 +97,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         app:singleSelection="false"
-        app:chipSpacingHorizontal="8dp">
+        app:chipSpacingHorizontal="8dp"
+        app:chipSpacingVertical="8dp">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_status_online"
@@ -104,7 +107,8 @@
             android:layout_height="wrap_content"
             android:text="En ligne"
             app:chipIcon="@drawable/ic_circle_24"
-            app:chipIconTint="@color/status_online" />
+            app:chipIconTint="@color/status_online"
+            app:chipBackgroundColor="@color/chip_background_selector" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_status_away"
@@ -113,7 +117,8 @@
             android:layout_height="wrap_content"
             android:text="Absent"
             app:chipIcon="@drawable/ic_circle_24"
-            app:chipIconTint="@color/status_away" />
+            app:chipIconTint="@color/status_away"
+            app:chipBackgroundColor="@color/chip_background_selector" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_status_offline"
@@ -122,16 +127,15 @@
             android:layout_height="wrap_content"
             android:text="Hors ligne"
             app:chipIcon="@drawable/ic_circle_24"
-            app:chipIconTint="@color/status_offline" />
-
+            app:chipIconTint="@color/status_offline"
+            app:chipBackgroundColor="@color/chip_background_selector" />
     </com.google.android.material.chip.ChipGroup>
 
-    <!-- Filtres de rôle -->
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- Section Rôles -->
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Rôles"
-        android:fontFamily="@font/roboto_condensed"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
         android:textColor="?attr/colorOnSurface"
         android:layout_marginBottom="12dp" />
@@ -142,28 +146,32 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         app:singleSelection="false"
-        app:chipSpacingHorizontal="8dp">
+        app:chipSpacingHorizontal="8dp"
+        app:chipSpacingVertical="8dp">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_role_admin"
             style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Administrateur" />
+            android:text="Administrateur"
+            app:chipBackgroundColor="@color/chip_background_selector" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_role_manager"
             style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Manager" />
+            android:text="Manager"
+            app:chipBackgroundColor="@color/chip_background_selector" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_role_developer"
             style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Développeur" />
+            android:text="Développeur"
+            app:chipBackgroundColor="@color/chip_background_selector" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_role_designer"
@@ -171,7 +179,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Designer"
-            android:fontFamily="@font/roboto_condensed"/>
+            app:chipBackgroundColor="@color/chip_background_selector" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_role_analyst"
@@ -179,8 +187,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Analyste"
-            android:fontFamily="@font/roboto_condensed"/>
-
+            app:chipBackgroundColor="@color/chip_background_selector" />
     </com.google.android.material.chip.ChipGroup>
 
     <!-- Boutons d'action -->
@@ -197,16 +204,14 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text="Réinitialiser"
-            android:fontFamily="@font/roboto_condensed"/>
+            android:textColor="?attr/colorPrimary" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_apply_filters"
             style="@style/Widget.Material3.Button.Filled"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Appliquer"
-            android:fontFamily="@font/roboto_condensed"/>
-
+            android:text="Appliquer" />
     </LinearLayout>
 
 </LinearLayout>

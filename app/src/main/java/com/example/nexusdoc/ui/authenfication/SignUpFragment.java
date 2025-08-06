@@ -139,11 +139,11 @@ public class SignUpFragment extends Fragment {
             }
         });
 
-        viewModel.getEmailVerified().observe(getViewLifecycleOwner(), verified -> {
+       /* viewModel.getEmailVerified().observe(getViewLifecycleOwner(), verified -> {
             if (verified) {
                 navigateToMainActivity();
             }
-        });
+        });*/
 
         viewModel.getLoading().observe(getViewLifecycleOwner(), loading -> {
             registerButton.setEnabled(!loading);
@@ -201,7 +201,7 @@ public class SignUpFragment extends Fragment {
             return;
         }
 
-        viewModel.registerUser(username, email, password, phone, fonction, selectedImageUri);
+        viewModel.registerUser(username, email, password,confirmPassword, phone, fonction, selectedImageUri);
     }
 
     private void handleRegistrationSuccess() {

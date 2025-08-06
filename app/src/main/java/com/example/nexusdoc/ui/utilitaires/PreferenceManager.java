@@ -39,15 +39,6 @@ public class PreferenceManager {
                     .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
                     .build();
 
-                    /*.setKeyGenParameterSpec(
-                            new KeyGenParameterSpec.Builder(
-                                    MasterKey.DEFAULT_MASTER_KEY_ALIAS,
-                                    KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
-                                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-                                    .setKeySize(256)
-                                    .build())
-                    .build();*/
-
             return EncryptedSharedPreferences.create(
                     context,
                     ENCRYPTED_PREF_NAME,

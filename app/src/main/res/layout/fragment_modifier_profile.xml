@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground">
+    android:background="?attr/colorSurface">
 
 
     <!-- Contenu principal -->
@@ -27,7 +27,8 @@
                 android:layout_marginBottom="24dp"
                 android:layout_marginTop="24dp"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="?attr/colorSurfaceVariant">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -41,7 +42,7 @@
                         android:layout_height="wrap_content"
                         android:text="Photo de profil"
                         android:textSize="18sp"
-                        android:textColor="@color/text_primary"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textStyle="bold"
                         android:layout_marginBottom="16dp" />
 
@@ -51,6 +52,7 @@
                         android:layout_height="120dp"
                         app:cardCornerRadius="60dp"
                         app:cardElevation="8dp"
+                        app:cardBackgroundColor="?attr/colorSurface"
                         android:layout_marginBottom="16dp">
 
                         <ImageView
@@ -70,7 +72,7 @@
                             android:layout_height="32dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_camera"
-                            app:tint="@color/primary_light" />
+                            app:tint="?attr/colorPrimary" />
 
                     </androidx.cardview.widget.CardView>
 
@@ -79,7 +81,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Toucher pour changer"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="?attr/colorPrimary"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -92,7 +94,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="?attr/colorSurfaceVariant">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -108,14 +111,16 @@
                         android:layout_marginBottom="16dp"
                         android:hint="Nom d'utilisateur"
                         app:startIconDrawable="@drawable/ic_person"
-                        app:startIconTint="@color/colorPrimary"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                        app:startIconTint="?attr/colorPrimary"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        app:boxBackgroundColor="?attr/colorSurface">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/username_input"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textPersonName" />
+                            android:inputType="textPersonName"
+                            android:textColor="?attr/colorOnSurface" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -127,14 +132,16 @@
                         android:layout_marginBottom="16dp"
                         android:hint="Fonction"
                         app:startIconDrawable="@drawable/ic_work"
-                        app:startIconTint="@color/colorPrimary"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                        app:startIconTint="?attr/colorPrimary"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        app:boxBackgroundColor="?attr/colorSurface">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/fonction_input"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="text" />
+                            android:inputType="text"
+                            android:textColor="?attr/colorOnSurface" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -146,15 +153,17 @@
                         android:layout_marginBottom="16dp"
                         android:hint="Adresse e-mail"
                         app:startIconDrawable="@drawable/ic_email"
-                        app:startIconTint="@color/colorPrimary"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                        app:startIconTint="?attr/colorPrimary"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        app:boxBackgroundColor="?attr/colorSurface">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/email_input"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textEmailAddress"
-                            android:enabled="false" />
+                            android:enabled="false"
+                            android:textColor="?attr/colorOnSurface" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -165,14 +174,16 @@
                         android:layout_height="wrap_content"
                         android:hint="Numéro de téléphone"
                         app:startIconDrawable="@drawable/ic_phone"
-                        app:startIconTint="@color/colorPrimary"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                        app:startIconTint="?attr/colorPrimary"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        app:boxBackgroundColor="?attr/colorSurface">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/phone_input"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="phone" />
+                            android:inputType="phone"
+                            android:textColor="?attr/colorOnSurface" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -190,27 +201,30 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_cancel"
-                    style="@style/Widget.Material3.Button.TextButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="56dp"
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp"
                     android:text="Annuler"
                     android:textSize="16sp"
-                    android:textColor="@color/text_secondary" />
+                    app:strokeColor="?attr/colorOutline"
+                    app:strokeWidth="1dp"
+                    app:rippleColor="?attr/colorPrimaryContainer" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_save"
-                    style="@style/Widget.Material3.Button.Filled"
+                    style="@style/Widget.Material3.Button"
                     android:layout_width="0dp"
                     android:layout_height="56dp"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:text="Enregistrer"
                     android:textSize="16sp"
-                    app:backgroundTint="@color/colorPrimary"
+                    app:backgroundTint="?attr/colorPrimary"
                     app:icon="@drawable/ic_save"
-                    app:iconGravity="textStart" />
+                    app:iconGravity="textStart"
+                    app:iconTint="?attr/colorOnPrimary" />
 
             </LinearLayout>
 
@@ -223,7 +237,7 @@
         android:id="@+id/loading_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/overlay_background"
+        android:background="?attr/colorScrim"
         android:visibility="gone"
         android:clickable="true">
 
@@ -231,7 +245,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center"
-            android:indeterminateTint="@color/colorPrimary" />
+            android:indeterminateTint="?attr/colorPrimary" />
 
     </FrameLayout>
 

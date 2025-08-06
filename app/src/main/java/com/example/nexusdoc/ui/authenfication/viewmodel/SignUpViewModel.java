@@ -4,92 +4,95 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.net.Uri;
-import android.net.Uri;
 
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.AndroidViewModel;
 
-import com.example.nexusdoc.ui.authenfication.repository.AuthRepository;
-import com.example.nexusdoc.ui.authenfication.model.RegistrationRequest;
-import com.example.nexusdoc.ui.authenfication.model.RegistrationResult;
+import com.example.nexusdoc.ui.authenfication.model.AuthRegistrationRequest;
+import com.example.nexusdoc.ui.authenfication.model.AuthResult;
+import com.example.nexusdoc.ui.authenfication.repository.DualAuthRepository;
+import com.example.nexusdoc.ui.authenfication.repository.FirebaseAuthRepository;
+import com.example.nexusdoc.ui.authenfication.validator.AuthValidator;
+import com.example.nexusdoc.ui.authenfication.validator.ValidationResult;
 
 public class SignUpViewModel extends AndroidViewModel {
 
-    private final AuthRepository authRepository;
+    private final DualAuthRepository authRepository;
+    private final AuthValidator validator;
 
-    private final MutableLiveData<RegistrationResult> registrationResult = new MutableLiveData<>();
+    private final MutableLiveData<AuthResult> registrationResult = new MutableLiveData<>();
     private final MutableLiveData<Boolean> emailVerificationSent = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> emailVerified = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
+    private final MutableLiveData<String> statusMessage = new MutableLiveData<>();
 
     public SignUpViewModel(Application application) {
         super(application);
-        this.authRepository = new AuthRepository(application.getApplicationContext());
+        this.authRepository = new DualAuthRepository(application.getApplicationContext());
+        this.validator = new AuthValidator();
     }
 
-    public LiveData<RegistrationResult> getRegistrationResult() {
-        return registrationResult;
-    }
+    public LiveData<AuthResult> getRegistrationResult() { return registrationResult; }
+    public LiveData<Boolean> getEmailVerificationSent() { return emailVerificationSent; }
+    public LiveData<Boolean> getLoading() { return loading; }
+    public LiveData<String> getStatusMessage() { return statusMessage; }
 
-    public LiveData<Boolean> getEmailVerificationSent() {
-        return emailVerificationSent;
-    }
+    public void registerUser(String username, String email, String password,
+                             String confirmPassword, String phone, String fonction, Uri profileImageUri) {
 
-    public LiveData<Boolean> getEmailVerified() {
-        return emailVerified;
-    }
+        ValidationResult validation = validator.validateRegistration(
+                username, email, password, confirmPassword, phone, fonction
+        );
 
-    public LiveData<Boolean> getLoading() {
-        return loading;
-    }
+        if (!validation.isValid()) {
+            registrationResult.setValue(AuthResult.error(validation.getErrorMessage()));
+            return;
+        }
 
-    public void registerUser(String username, String email, String password, String phone, String fonction, Uri profileImageUri) {
         loading.setValue(true);
+        statusMessage.setValue("Inscription en cours...");
 
-        RegistrationRequest request = new RegistrationRequest(username, email, password, phone, fonction, profileImageUri);
+        AuthRegistrationRequest request = new AuthRegistrationRequest(
+                username, email, password, phone, fonction, profileImageUri
+        );
 
-        authRepository.registerUser(request, new AuthRepository.RegistrationCallback() {
+        authRepository.signUp(request, new DualAuthRepository.DualAuthCallback() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(AuthResult.AuthProvider successfulProvider) {
                 loading.setValue(false);
-                registrationResult.setValue(RegistrationResult.success());
+                statusMessage.setValue("Inscription réussie sur " + getProviderName(successfulProvider));
+                registrationResult.setValue(AuthResult.success(successfulProvider));
                 sendEmailVerification();
             }
 
             @Override
             public void onError(String errorMessage) {
                 loading.setValue(false);
-                registrationResult.setValue(RegistrationResult.error(errorMessage));
+                statusMessage.setValue("Échec de l'inscription");
+                registrationResult.setValue(AuthResult.error(errorMessage));
+            }
+
+            @Override
+            public void onPartialSuccess(AuthResult.AuthProvider successfulProvider, String failedProviderError) {
+                loading.setValue(false);
+                statusMessage.setValue("Inscription partielle sur " + getProviderName(successfulProvider));
+                registrationResult.setValue(AuthResult.success(successfulProvider));
+                sendEmailVerification();
             }
         });
     }
 
     private void sendEmailVerification() {
-        authRepository.sendEmailVerification(new AuthRepository.EmailVerificationCallback() {
+        authRepository.sendEmailVerification(new FirebaseAuthRepository.AuthCallback() {
             @Override
-            public void onSent() {
+            public void onSuccess() {
                 emailVerificationSent.setValue(true);
-                checkEmailVerification();
             }
 
             @Override
             public void onError(String errorMessage) {
-                // Handle error silently or show message
-            }
-        });
-    }
-
-    private void checkEmailVerification() {
-        authRepository.checkEmailVerification(new AuthRepository.EmailVerificationCallback() {
-            @Override
-            public void onSent() {
-                emailVerified.setValue(true);
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                // Email not verified yet - could implement periodic checking
+                // Erreur silencieuse pour la vérification email
+                statusMessage.setValue("Inscription réussie (vérification email échouée)");
             }
         });
     }
@@ -105,5 +108,20 @@ public class SignUpViewModel extends AndroidViewModel {
             intent.setData(Uri.parse("https://mail.google.com"));
             activity.startActivity(intent);
         }
+    }
+
+    private String getProviderName(AuthResult.AuthProvider provider) {
+        switch (provider) {
+            case FIREBASE: return "Firebase";
+            case SUPABASE: return "Supabase";
+            case BOTH: return "Firebase et Supabase";
+            default: return "Inconnu";
+        }
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        authRepository.cleanup();
     }
 }

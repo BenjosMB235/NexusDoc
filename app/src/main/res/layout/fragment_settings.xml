@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="?attr/colorSurfaceContainer"
+    android:background="?attr/colorSurfaceVariant"
     tools:context=".ui.settings.SettingsFragment">
 
     <LinearLayout
@@ -14,14 +14,12 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-
         <!-- Section: Appearance -->
         <com.google.android.material.card.MaterialCardView
+            style="@style/CardStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardElevation="2dp"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.MediumComponent">
+            android:layout_marginBottom="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -33,8 +31,8 @@
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     android:text="@string/appearance_title"
-                    android:fontFamily="@font/roboto_condensed"
-                    android:textAppearance="?attr/textAppearanceTitleMedium" />
+                    android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:id="@+id/theme_container"
@@ -65,20 +63,20 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/dark_theme"
-                            android:fontFamily="@font/roboto_condensed"
-                            android:textAppearance="?attr/textAppearanceBodyLarge" />
+                            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/theme_status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/disabled"
-                            android:fontFamily="@font/roboto_condensed"
-                            android:textAppearance="?attr/textAppearanceBodySmall" />
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
                     </LinearLayout>
 
                     <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/theme_switch"
+                        style="@style/CustomSwitchStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -87,11 +85,10 @@
 
         <!-- Section: Language -->
         <com.google.android.material.card.MaterialCardView
+            style="@style/CardStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardElevation="2dp"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.MediumComponent">
+            android:layout_marginBottom="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -103,13 +100,14 @@
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     android:text="@string/language_title"
-                    android:fontFamily="@font/roboto_condensed"
-                    android:textAppearance="?attr/textAppearanceTitleMedium" />
+                    android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+                    android:textStyle="bold" />
 
-                <RadioGroup
-                    android:id="@+id/language_radio_group"
+                <!-- Container pour les options de langue (sans RadioGroup) -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     android:padding="8dp">
 
                     <!-- French -->
@@ -128,7 +126,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="🇫🇷"
-                            android:fontFamily="@font/roboto_condensed"
                             android:textSize="20sp"
                             android:layout_marginEnd="12dp" />
 
@@ -137,13 +134,15 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/french"
-                            android:fontFamily="@font/roboto_condensed"
-                            android:textAppearance="?attr/textAppearanceBodyLarge" />
+                            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
                         <RadioButton
                             android:id="@+id/radio_french"
+                            style="@style/Widget.Material3.CompoundButton.RadioButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false"
                             android:checked="true" />
                     </LinearLayout>
 
@@ -163,7 +162,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="🇺🇸"
-                            android:fontFamily="@font/roboto_condensed"
                             android:textSize="20sp"
                             android:layout_marginEnd="12dp" />
 
@@ -172,13 +170,15 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/english"
-                            android:fontFamily="@font/roboto_condensed"
-                            android:textAppearance="?attr/textAppearanceBodyLarge" />
+                            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
                         <RadioButton
                             android:id="@+id/radio_english"
+                            style="@style/Widget.Material3.CompoundButton.RadioButton"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false" />
                     </LinearLayout>
 
                     <!-- Spanish -->
@@ -205,25 +205,26 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/spanish"
-                            android:fontFamily="@font/roboto_condensed"
-                            android:textAppearance="?attr/textAppearanceBodyLarge" />
+                            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
                         <RadioButton
                             android:id="@+id/radio_spanish"
+                            style="@style/Widget.Material3.CompoundButton.RadioButton"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false" />
                     </LinearLayout>
-                </RadioGroup>
+                </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Section: Notifications -->
         <com.google.android.material.card.MaterialCardView
+            style="@style/CardStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardElevation="2dp"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.MediumComponent">
+            android:layout_marginBottom="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -235,8 +236,8 @@
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     android:text="@string/notifications_title"
-                    android:fontFamily="@font/roboto_condensed"
-                    android:textAppearance="?attr/textAppearanceTitleMedium" />
+                    android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:id="@+id/notifications_container"
@@ -267,20 +268,20 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/push_notifications"
-                            android:fontFamily="@font/roboto_condensed"
-                            android:textAppearance="?attr/textAppearanceBodyLarge" />
+                            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/notifications_status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/enabled"
-                            android:fontFamily="@font/roboto_condensed"
-                            android:textAppearance="?attr/textAppearanceBodySmall" />
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
                     </LinearLayout>
 
                     <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/notifications_switch"
+                        style="@style/CustomSwitchStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true" />
@@ -290,17 +291,15 @@
 
         <!-- Section: Help -->
         <com.google.android.material.card.MaterialCardView
+            style="@style/CardStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardElevation="2dp"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.MediumComponent">
+            android:layout_height="wrap_content">
 
             <!-- Section Aide -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:elevation="1dp">
+                android:orientation="vertical">
 
                 <!-- Help Header -->
                 <LinearLayout
@@ -310,26 +309,17 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:padding="16dp"
-                    android:background="?android:attr/selectableItemBackground"
+                    android:background="?attr/selectableItemBackground"
                     android:clickable="true"
                     android:focusable="true">
 
-                    <LinearLayout
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/icon_background_secondary"
-                        android:gravity="center"
-                        android:layout_marginEnd="16dp">
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/help_icon"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_help"
-                            android:tint="?attr/colorPrimary"
-                            android:layout_marginEnd="16dp" />
-
-                    </LinearLayout>
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/help_icon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_help"
+                        android:tint="?attr/colorPrimary"
+                        android:layout_marginEnd="16dp" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -341,17 +331,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/help_support"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/text_primary" />
+                            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/faq_assistance"
-                            android:textSize="14sp"
-                            android:textColor="@color/text_secondary" />
-
+                            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
                     </LinearLayout>
 
                     <ImageView
@@ -359,8 +347,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_chevron_right"
-                        app:tint="@color/text_secondary" />
-
+                        app:tint="?attr/colorOnSurfaceVariant" />
                 </LinearLayout>
 
                 <!-- Help Content (Initially Hidden) -->
@@ -370,97 +357,76 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone"
-                    android:background="@color/help_background"
+                    android:background="?attr/colorSurfaceContainerLow"
                     android:padding="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/faq_title"
-                        android:textSize="16sp"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textStyle="bold"
-                        android:textColor="@color/text_primary"
                         android:layout_marginBottom="12dp" />
 
                     <!-- FAQ Items -->
                     <LinearLayout
+                        style="@style/FAQItemStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginBottom="16dp"
-                        android:background="@drawable/faq_item_background"
-                        android:padding="12dp">
+                        android:layout_marginBottom="8dp">
 
                         <TextView
+                            style="@style/FAQQuestionStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/faq_theme_question"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/text_primary"
-                            android:layout_marginBottom="4dp" />
+                            android:text="@string/faq_theme_question" />
 
                         <TextView
+                            style="@style/FAQAnswerStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/faq_theme_answer"
-                            android:textSize="14sp"
-                            android:textColor="@color/text_secondary" />
-
+                            android:text="@string/faq_theme_answer" />
                     </LinearLayout>
 
                     <LinearLayout
+                        style="@style/FAQItemStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginBottom="16dp"
-                        android:background="@drawable/faq_item_background"
-                        android:padding="12dp">
+                        android:layout_marginBottom="8dp">
 
                         <TextView
+                            style="@style/FAQQuestionStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/faq_notifications_question"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/text_primary"
-                            android:layout_marginBottom="4dp" />
+                            android:text="@string/faq_notifications_question" />
 
                         <TextView
+                            style="@style/FAQAnswerStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/faq_notifications_answer"
-                            android:textSize="14sp"
-                            android:textColor="@color/text_secondary" />
-
+                            android:text="@string/faq_notifications_answer" />
                     </LinearLayout>
 
                     <LinearLayout
+                        style="@style/FAQItemStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginBottom="16dp"
-                        android:background="@drawable/faq_item_background"
-                        android:padding="12dp">
+                        android:orientation="vertical">
 
                         <TextView
+                            style="@style/FAQQuestionStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/faq_language_question"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/text_primary"
-                            android:layout_marginBottom="4dp" />
+                            android:text="@string/faq_language_question" />
 
                         <TextView
+                            style="@style/FAQAnswerStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/faq_language_answer"
-                            android:textSize="14sp"
-                            android:textColor="@color/text_secondary" />
-
+                            android:text="@string/faq_language_answer" />
                     </LinearLayout>
-
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

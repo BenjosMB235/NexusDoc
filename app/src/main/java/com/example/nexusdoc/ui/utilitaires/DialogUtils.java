@@ -25,43 +25,52 @@ public class DialogUtils {
     public interface DialogCallback {
         void onPositive();
         default void onNegative() {}
+        default void onPositive(int which) {} // Pour les choix simples
     }
 
-    /**
-     * Affiche un message de succès avec une animation
-     */
+    public interface InputDialogCallback {
+        void onInput(String input);
+    }
+
+    // Méthodes existantes inchangées
     public static void showSuccessMessage(Context context, String message) {
         showCustomDialog(context, "Succès", message, R.drawable.ic_success,
                 ContextCompat.getColor(context, R.color.colorSuccess), null);
     }
 
-    /**
-     * Affiche un message d'erreur avec une animation
-     */
     public static void showErrorMessage(Context context, String message) {
         showCustomDialog(context, "Erreur", message, R.drawable.ic_error,
                 ContextCompat.getColor(context, R.color.colorError), null);
     }
 
-    /**
-     * Affiche un message d'information
-     */
     public static void showInfoMessage(Context context, String message) {
         showCustomDialog(context, "Information", message, R.drawable.ic_info,
                 ContextCompat.getColor(context, R.color.info_color), null);
     }
 
-    /**
-     * Affiche un message d'avertissement
-     */
     public static void showWarningMessage(Context context, String message) {
         showCustomDialog(context, "Attention", message, R.drawable.ic_warning,
                 ContextCompat.getColor(context, R.color.colorWarning), null);
     }
 
-    /**
-     * Affiche un dialogue de confirmation
-     */
+    // Nouvelle méthode pour les dialogues d'information avec titre
+    public static void showInfoDialog(Context context, String title, String message) {
+        showCustomDialog(context, title, message, R.drawable.ic_info,
+                ContextCompat.getColor(context, R.color.info_color), null);
+    }
+
+    // Méthode de confirmation simplifiée
+    public static void showConfirmationDialog(Context context, String title, String message,
+                                              Runnable positiveAction) {
+        showConfirmationDialog(context, title, message, "Confirmer", "Annuler",
+                new DialogCallback() {
+                    @Override
+                    public void onPositive() {
+                        positiveAction.run();
+                    }
+                });
+    }
+
     public static void showConfirmationDialog(Context context, String title, String message,
                                               String positiveText, String negativeText,
                                               DialogCallback callback) {
@@ -83,8 +92,29 @@ public class DialogUtils {
     }
 
     /**
-     * Affiche un dialogue de chargement
+     * Affiche un message d'erreur avec option de réessayer
+     * @param context Contexte
+     * @param title Titre du dialogue
+     * @param message Message d'erreur
+     * @param retryAction Action à exécuter quand on clique sur "Réessayer"
      */
+    public static void showErrorWithRetryDialog(Context context,
+                                                String title,
+                                                String message,
+                                                Runnable retryAction) {
+        new MaterialAlertDialogBuilder(context, R.style.CustomAlertDialog)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(context.getString(R.string.retry), (dialog, which) -> {
+                    if (retryAction != null) {
+                        retryAction.run();
+                    }
+                })
+                .setNegativeButton(context.getString(R.string.cancel), null)
+                .setIcon(R.drawable.ic_error)
+                .show();
+    }
+
     public static Dialog showLoadingDialog(Context context, String message) {
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -107,9 +137,54 @@ public class DialogUtils {
         return dialog;
     }
 
-    /**
-     * Dialogue personnalisé avec animation
-     */
+    public static void showSingleChoiceDialog(Context context, String title, String[] items,
+                                              int checkedItem, DialogCallback callback) {
+        new MaterialAlertDialogBuilder(context, R.style.CustomAlertDialog)
+                .setTitle(title)
+                .setSingleChoiceItems(items, checkedItem, (dialog, which) -> {
+                    if (callback != null) {
+                        callback.onPositive(which);
+                    }
+                    dialog.dismiss();
+                })
+                .setNegativeButton("Annuler", (dialog, which) -> {
+                    if (callback != null) {
+                        callback.onNegative();
+                    }
+                })
+                .show();
+    }
+
+    public static void showInputDialog(Context context, String title, String hint,
+                                       InputDialogCallback callback) {
+        showInputDialog(context, title, hint, "", callback);
+    }
+
+    public static void showInputDialog(Context context, String title, String hint,
+                                       String initialValue, InputDialogCallback callback) {
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_input, null);
+
+        com.google.android.material.textfield.TextInputLayout inputLayout =
+                view.findViewById(R.id.input_layout);
+        com.google.android.material.textfield.TextInputEditText inputText =
+                view.findViewById(R.id.input_text);
+
+        inputLayout.setHint(hint);
+        inputText.setText(initialValue);
+
+        new MaterialAlertDialogBuilder(context, R.style.CustomAlertDialog)
+                .setTitle(title)
+                .setView(view)
+                .setPositiveButton("OK", (dialog, which) -> {
+                    String input = inputText.getText().toString().trim();
+                    if (callback != null) {
+                        callback.onInput(input);
+                    }
+                })
+                .setNegativeButton("Annuler", null)
+                .show();
+    }
+
     private static void showCustomDialog(Context context, String title, String message,
                                          int iconRes, int iconColor, DialogCallback callback) {
         Dialog dialog = new Dialog(context);
@@ -143,74 +218,18 @@ public class DialogUtils {
             window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,
                     WindowManager.LayoutParams.WRAP_CONTENT);
 
-            // Animation d'entrée
             Animation slideIn = AnimationUtils.loadAnimation(context, R.anim.slide_in_bottom);
             view.startAnimation(slideIn);
         }
 
         dialog.show();
 
-        // Auto-dismiss pour les messages de succès/erreur après 3 secondes
         if (callback == null) {
             new android.os.Handler().postDelayed(dialog::dismiss, 3000);
         }
     }
 
-    /**
-     * Dialogue avec choix multiples
-     */
-    public static void showSingleChoiceDialog(Context context, String title, String[] items,
-                                              int checkedItem, DialogCallback callback) {
-        new MaterialAlertDialogBuilder(context, R.style.CustomAlertDialog)
-                .setTitle(title)
-                .setSingleChoiceItems(items, checkedItem, (dialog, which) -> {
-                    if (callback != null) {
-                        callback.onPositive();
-                    }
-                    dialog.dismiss();
-                })
-                .setNegativeButton("Annuler", (dialog, which) -> {
-                    if (callback != null) {
-                        callback.onNegative();
-                    }
-                })
-                .show();
-    }
-
-    /**
-     * Dialogue avec input text
-     */
-    public static void showInputDialog(Context context, String title, String hint,
-                                       InputDialogCallback callback) {
-        View view = LayoutInflater.from(context).inflate(R.layout.dialog_input, null);
-
-        com.google.android.material.textfield.TextInputLayout inputLayout =
-                view.findViewById(R.id.input_layout);
-        com.google.android.material.textfield.TextInputEditText inputText =
-                view.findViewById(R.id.input_text);
-
-        inputLayout.setHint(hint);
-
-        new MaterialAlertDialogBuilder(context, R.style.CustomAlertDialog)
-                .setTitle(title)
-                .setView(view)
-                .setPositiveButton("OK", (dialog, which) -> {
-                    String input = inputText.getText().toString().trim();
-                    if (callback != null) {
-                        callback.onInput(input);
-                    }
-                })
-                .setNegativeButton("Annuler", null)
-                .show();
-    }
-
-    public interface InputDialogCallback {
-        void onInput(String input);
-    }
-
-    /**
-     * Dialogue de déconnexion
-     */
+    // Méthodes spécifiques
     public static void showLogoutDialog(Context context, DialogCallback callback) {
         showConfirmationDialog(context,
                 "Déconnexion",
@@ -220,9 +239,6 @@ public class DialogUtils {
                 callback);
     }
 
-    /**
-     * Dialogue de suppression
-     */
     public static void showDeleteDialog(Context context, String itemName, DialogCallback callback) {
         showConfirmationDialog(context,
                 "Supprimer",
@@ -232,9 +248,6 @@ public class DialogUtils {
                 callback);
     }
 
-    /**
-     * Dialogue d'erreur réseau
-     */
     public static void showNetworkErrorDialog(Context context, DialogCallback retryCallback) {
         showCustomDialog(context,
                 "Erreur de connexion",
@@ -244,9 +257,15 @@ public class DialogUtils {
                 retryCallback);
     }
 
-    /**
-     * Dialogue de mise à jour disponible
-     */
+    public static void showPermissionRequiredDialog(Context context, DialogCallback retryCallback) {
+        showCustomDialog(context,
+                "Permissions requises",
+                "L'application a besoin des permissions pour fonctionner correctement",
+                R.drawable.ic_warning,
+                ContextCompat.getColor(context, R.color.colorWarning),
+                retryCallback);
+    }
+
     public static void showUpdateDialog(Context context, DialogCallback callback) {
         showConfirmationDialog(context,
                 "Mise à jour disponible",

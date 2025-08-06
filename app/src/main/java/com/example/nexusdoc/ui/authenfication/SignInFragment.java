@@ -175,9 +175,6 @@ public class SignInFragment extends Fragment {
     }
 
     private void navigateToMainActivity() {
-        /*Intent intent = new Intent(requireActivity(), MainActivity.class);
-        startActivity(intent);
-        requireActivity().finish();*/
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.action_signIn_to_main);
     }

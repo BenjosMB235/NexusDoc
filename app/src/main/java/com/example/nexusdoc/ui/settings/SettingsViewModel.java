@@ -3,15 +3,10 @@ package com.example.nexusdoc.ui.settings;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.appcompat.app.AppCompatDelegate;
-
-import java.util.Locale;
 
 public class SettingsViewModel extends AndroidViewModel {
 
@@ -26,13 +21,13 @@ public class SettingsViewModel extends AndroidViewModel {
     private MutableLiveData<Boolean> _isDarkTheme = new MutableLiveData<>();
     private MutableLiveData<Boolean> _notificationsEnabled = new MutableLiveData<>();
     private MutableLiveData<String> _currentLanguage = new MutableLiveData<>();
-    private MutableLiveData<Boolean> _shouldRecreateActivity = new MutableLiveData<>();
+    private MutableLiveData<String> _languageChanged = new MutableLiveData<>();
 
     // Public LiveData getters
     public LiveData<Boolean> isDarkTheme() { return _isDarkTheme; }
     public LiveData<Boolean> notificationsEnabled() { return _notificationsEnabled; }
     public LiveData<String> currentLanguage() { return _currentLanguage; }
-    public LiveData<Boolean> shouldRecreateActivity() { return _shouldRecreateActivity; }
+    public LiveData<String> languageChanged() { return _languageChanged; }
 
     public SettingsViewModel(Application application) {
         super(application);
@@ -84,6 +79,13 @@ public class SettingsViewModel extends AndroidViewModel {
     }
 
     public void setLanguage(String languageCode) {
+        String currentLang = _currentLanguage.getValue();
+
+        // Vérifier si la langue a vraiment changé
+        if (currentLang != null && currentLang.equals(languageCode)) {
+            return;
+        }
+
         // Save to preferences
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(PREF_LANGUAGE, languageCode);
@@ -92,21 +94,8 @@ public class SettingsViewModel extends AndroidViewModel {
         // Update LiveData
         _currentLanguage.setValue(languageCode);
 
-        // Update app language
-        updateAppLanguage(languageCode);
-    }
-
-    private void updateAppLanguage(String languageCode) {
-        // Update locale configuration
-        Resources resources = getApplication().getResources();
-        Configuration configuration = resources.getConfiguration();
-        Locale locale = new Locale(languageCode);
-        Locale.setDefault(locale);
-        configuration.setLocale(locale);
-        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
-
-        // Signal that activity should be recreated
-        _shouldRecreateActivity.setValue(true);
+        // Signal language change to trigger activity recreation
+        _languageChanged.setValue(languageCode);
     }
 
     private void applyTheme(boolean isDarkTheme) {
@@ -117,8 +106,8 @@ public class SettingsViewModel extends AndroidViewModel {
         }
     }
 
-    public void onActivityRecreated() {
-        _shouldRecreateActivity.setValue(false);
+    public void onLanguageChangeHandled() {
+        _languageChanged.setValue(null);
     }
 
     // Getters for current values (for initial setup)

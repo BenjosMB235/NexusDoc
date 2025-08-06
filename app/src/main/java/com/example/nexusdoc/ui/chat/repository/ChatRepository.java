@@ -9,7 +9,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.example.nexusdoc.ui.data.models.Message;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChatRepository {
     private static ChatRepository instance;
@@ -17,6 +19,7 @@ public class ChatRepository {
     private FirebaseAuth auth;
     private CollectionReference messagesRef;
     private CollectionReference typingStatusRef;
+    private CollectionReference blockedUsersRef;
     private MutableLiveData<List<Message>> messages;
     private MutableLiveData<String> errorMessage;
     private MutableLiveData<Boolean> isLoading;
@@ -27,6 +30,7 @@ public class ChatRepository {
         auth = FirebaseAuth.getInstance();
         messagesRef = db.collection("messages");
         typingStatusRef = db.collection("typing_status");
+        blockedUsersRef = db.collection("blocked_users");
         messages = new MutableLiveData<>();
         errorMessage = new MutableLiveData<>();
         isLoading = new MutableLiveData<>();
@@ -60,12 +64,6 @@ public class ChatRepository {
         isLoading.setValue(true);
         String currentUserId = auth.getCurrentUser().getUid();
 
-        // CORRECTION: Requête simplifiée pour éviter l'erreur d'index
-        // Utiliser une requête OR avec deux requêtes séparées
-        loadMessagesForConversation(currentUserId, otherUserId);
-    }
-
-    private void loadMessagesForConversation(String currentUserId, String otherUserId) {
         // Requête pour les messages envoyés par l'utilisateur actuel
         Query sentMessages = messagesRef
                 .whereEqualTo("senderId", currentUserId)
@@ -151,6 +149,61 @@ public class ChatRepository {
                 })
                 .addOnFailureListener(e -> {
                     errorMessage.setValue("Erreur lors de l'envoi du message: " + e.getMessage());
+                });
+    }
+
+    public void deleteMessage(String messageId) {
+        messagesRef.document(messageId)
+                .delete()
+                .addOnSuccessListener(aVoid -> {
+                    // Message supprimé avec succès
+                })
+                .addOnFailureListener(e -> {
+                    errorMessage.setValue("Erreur lors de la suppression: " + e.getMessage());
+                });
+    }
+
+    public void clearChat(String otherUserId) {
+        String currentUserId = auth.getCurrentUser().getUid();
+
+        // Supprimer tous les messages de la conversation
+        messagesRef.whereEqualTo("senderId", currentUserId)
+                .whereEqualTo("receiverId", otherUserId)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
+                        doc.getReference().delete();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    errorMessage.setValue("Erreur lors de l'effacement: " + e.getMessage());
+                });
+
+        messagesRef.whereEqualTo("senderId", otherUserId)
+                .whereEqualTo("receiverId", currentUserId)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
+                        doc.getReference().delete();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    errorMessage.setValue("Erreur lors de l'effacement: " + e.getMessage());
+                });
+    }
+
+    public void blockUser(String userId) {
+        String currentUserId = auth.getCurrentUser().getUid();
+
+        Map<String, Object> blockData = new HashMap<>();
+        blockData.put("blockerId", currentUserId);
+        blockData.put("blockedUserId", userId);
+        blockData.put("timestamp", System.currentTimeMillis());
+
+        blockedUsersRef.document(currentUserId + "_" + userId)
+                .set(blockData)
+                .addOnFailureListener(e -> {
+                    errorMessage.setValue("Erreur lors du blocage: " + e.getMessage());
                 });
     }
 

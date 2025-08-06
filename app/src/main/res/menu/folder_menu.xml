@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_ouvrir"
+        android:title="Ouvrir" />
+
+    <item
+        android:id="@+id/action_renommer"
+        android:title="Renommer" />
+
+    <item
+        android:id="@+id/action_supprimer"
+        android:title="Supprimer" />
+
+    <item
+        android:id="@+id/action_proprietes"
+        android:title="Propriétés" />
+</menu>

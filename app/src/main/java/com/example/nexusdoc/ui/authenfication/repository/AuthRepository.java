@@ -4,8 +4,12 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
-import com.example.nexusdoc.ui.authenfication.model.RegistrationRequest;
+import com.example.nexusdoc.network.SupabaseAuthClient;
+import com.example.nexusdoc.network.SupabaseAuthService;
 import com.example.nexusdoc.ui.authenfication.model.LoginRequest;
+import com.example.nexusdoc.ui.authenfication.model.RegistrationRequest;
+import com.example.nexusdoc.ui.authenfication.model.SupabaseLoginRequest;
+import com.example.nexusdoc.ui.authenfication.model.SupabaseSignUpRequest;
 import com.example.nexusdoc.ui.utilitaires.Constants;
 import com.example.nexusdoc.ui.utilitaires.PreferenceManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -13,23 +17,31 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.JsonObject;
 
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Response;
+
+
 public class AuthRepository {
 
-    private final FirebaseAuth auth;
+ /*   private final FirebaseAuth auth;
     private final FirebaseFirestore firestore;
     private final PreferenceManager preferenceManager;
     private final Context context;
+    //private final SupabaseAuthClient supabaseClient;
+    private final SupabaseAuthService supabaseService;
 
-    public AuthRepository(Context context) {
+    public AuthRepository(Context context, SupabaseAuthClient supabaseClient) {
         this.context = context;
         this.auth = FirebaseAuth.getInstance();
         this.firestore = FirebaseFirestore.getInstance();
         this.preferenceManager = new PreferenceManager(context);
+        this.supabaseService = supabaseClient.getSupabaseService();
     }
 
     public interface RegistrationCallback {
@@ -59,6 +71,8 @@ public class AuthRepository {
                         FirebaseUser user = auth.getCurrentUser();
                         if (user != null) {
                             updateUserProfile(user, request, callback);
+                            // 🔄 Inscription dans Supabase
+                            registerUserInSupabase(request);
                         }
                     } else {
                         callback.onError("Échec de l'inscription: " + task.getException().getMessage());
@@ -94,9 +108,7 @@ public class AuthRepository {
                         data.put("updatedAt", FieldValue.serverTimestamp());
                         data.put("provider", user.getProviderId());
 
-                        // Ajouter l'image de profil si disponible
                         if (request.getProfileImageUri() != null) {
-                            // Convertir l'image en Base64 et l'ajouter au document
                             convertImageToBase64(request.getProfileImageUri(), base64Image -> {
                                 if (base64Image != null) {
                                     data.put("profileImageBase64", base64Image);
@@ -132,16 +144,13 @@ public class AuthRepository {
                 return;
             }
 
-            // Redimensionner si nécessaire
             android.graphics.Bitmap resizedBitmap = resizeImageIfNeeded(bitmap);
 
-            // Convertir en Base64
             java.io.ByteArrayOutputStream byteArrayOutputStream = new java.io.ByteArrayOutputStream();
             resizedBitmap.compress(android.graphics.Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
             byte[] byteArray = byteArrayOutputStream.toByteArray();
             String base64Image = android.util.Base64.encodeToString(byteArray, android.util.Base64.DEFAULT);
 
-            // Nettoyer
             if (resizedBitmap != bitmap) {
                 resizedBitmap.recycle();
             }
@@ -165,9 +174,7 @@ public class AuthRepository {
 
         float ratio = Math.min((float) maxWidth / width, (float) maxHeight / height);
 
-        if (ratio >= 1.0f) {
-            return originalBitmap;
-        }
+        if (ratio >= 1.0f) return originalBitmap;
 
         int newWidth = Math.round(width * ratio);
         int newHeight = Math.round(height * ratio);
@@ -221,6 +228,8 @@ public class AuthRepository {
                         if (user != null) {
                             saveToPreferences(user);
                             callback.onSuccess();
+                            // 🔄 Connexion Supabase
+                            loginUserInSupabase(request);
                         }
                     } else {
                         callback.onError("Échec de la connexion: " + task.getException().getMessage());
@@ -238,4 +247,65 @@ public class AuthRepository {
                     }
                 });
     }
+
+    // 🔐 Appelle l’API Supabase Auth login
+    private void loginUserInSupabase(LoginRequest request) {
+        SupabaseAuthService authService = supabaseService;
+
+        SupabaseLoginRequest loginRequest = new SupabaseLoginRequest(
+                request.getEmail(),
+                request.getPassword()
+        );
+
+        authService.loginUser(loginRequest).enqueue(new retrofit2.Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    JsonObject body = response.body();
+                    String accessToken = body.get("access_token").getAsString();
+                    String refreshToken = body.get("refresh_token").getAsString();
+
+                    // Stockage optionnel du token pour requêtes futures
+                    preferenceManager.putString("supabase_access_token", accessToken);
+                    preferenceManager.putString("supabase_refresh_token", refreshToken);
+
+                    Log.d("Supabase", "Connexion Supabase réussie");
+                } else {
+                    Log.e("Supabase", "Erreur connexion Supabase: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e("Supabase", "Erreur réseau Supabase: " + t.getMessage());
+            }
+        });
+    }
+
+    // 🔐 Appelle l’API Supabase Auth signup
+    private void registerUserInSupabase(RegistrationRequest request) {
+        SupabaseAuthService authService = supabaseService;
+
+        SupabaseSignUpRequest supabaseRequest = new SupabaseSignUpRequest(
+                request.getEmail(),
+                request.getPassword()
+        );
+
+        authService.registerUser(supabaseRequest).enqueue(new retrofit2.Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful()) {
+                    Log.d("Supabase", "Utilisateur inscrit dans Supabase");
+                } else {
+                    Log.e("Supabase", "Erreur inscription Supabase: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e("Supabase", "Erreur réseau Supabase: " + t.getMessage());
+            }
+        });
+    }
+*/
 }

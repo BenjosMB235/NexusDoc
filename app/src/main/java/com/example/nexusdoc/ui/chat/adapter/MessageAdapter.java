@@ -9,10 +9,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.example.nexusdoc.R;
 import com.example.nexusdoc.ui.data.models.Message;
 import com.example.nexusdoc.ui.profile.repository.ProfileRepository;
+import com.example.nexusdoc.ui.team.repository.TeamRepository;
+import com.example.nexusdoc.ui.data.models.User;
+import com.google.android.material.textview.MaterialTextView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +36,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         void onMessageLongClick(Message message);
         void onImageClick(Message message);
         void onFileClick(Message message);
+        void onAudioClick(Message message);
     }
 
     public MessageAdapter(String currentUserId, OnMessageClickListener listener) {
@@ -80,16 +88,19 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     // ViewHolder pour les messages envoyés
     class SentMessageViewHolder extends RecyclerView.ViewHolder {
-        private TextView messageText;
-        private TextView messageTime;
-        private ImageView messageStatus;
+        private MaterialTextView messageText;
+        private MaterialTextView messageTime;
+        private ShapeableImageView messageStatus;
         private ShapeableImageView messageImage;
-        private LinearLayout fileContainer;
-        private TextView fileName;
-        private TextView fileSize;
-        private LinearLayout replyContainer;
-        private TextView replySender;
-        private TextView replyMessage;
+        private MaterialCardView fileContainer;
+        private MaterialTextView fileName;
+        private MaterialTextView fileSize;
+        private MaterialCardView replyContainer;
+        private MaterialTextView replySender;
+        private MaterialTextView replyMessage;
+        private MaterialCardView audioContainer;
+        private MaterialButton audioPlayButton;
+        private MaterialTextView audioDuration;
 
         public SentMessageViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -103,11 +114,13 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             replyContainer = itemView.findViewById(R.id.reply_container);
             replySender = itemView.findViewById(R.id.reply_sender);
             replyMessage = itemView.findViewById(R.id.reply_message);
+            audioContainer = itemView.findViewById(R.id.audio_container);
+            audioPlayButton = itemView.findViewById(R.id.audio_play_button);
+            audioDuration = itemView.findViewById(R.id.audio_duration);
         }
 
         public void bind(Message message) {
             messageText.setText(message.getContent());
-            // CORRECTION: Utiliser la méthode statique au lieu de getFormattedTime()
             messageTime.setText(Message.formatTime(message.getTimestamp()));
 
             // Définir l'icône de statut
@@ -146,11 +159,14 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         private void handleMessageType(Message message) {
+            // Masquer tous les conteneurs par défaut
+            messageImage.setVisibility(View.GONE);
+            fileContainer.setVisibility(View.GONE);
+            audioContainer.setVisibility(View.GONE);
+
             switch (message.getType()) {
                 case IMAGE:
                     messageImage.setVisibility(View.VISIBLE);
-                    fileContainer.setVisibility(View.GONE);
-
                     if (message.getImageUrl() != null) {
                         // Si c'est une image Base64
                         if (message.getImageUrl().startsWith("data:image") || !message.getImageUrl().startsWith("http")) {
@@ -169,9 +185,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     break;
 
                 case FILE:
-                    messageImage.setVisibility(View.GONE);
                     fileContainer.setVisibility(View.VISIBLE);
-
                     if (message.getAttachments() != null && !message.getAttachments().isEmpty()) {
                         Message.FileAttachment attachment = message.getAttachments().get(0);
                         fileName.setText(attachment.getFileName());
@@ -185,9 +199,22 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                     break;
 
+                case AUDIO:
+                    audioContainer.setVisibility(View.VISIBLE);
+                    if (message.getAttachments() != null && !message.getAttachments().isEmpty()) {
+                        Message.FileAttachment audioAttachment = message.getAttachments().get(0);
+                        audioDuration.setText("Audio");
+
+                        audioPlayButton.setOnClickListener(v -> {
+                            if (listener != null) {
+                                listener.onAudioClick(message);
+                            }
+                        });
+                    }
+                    break;
+
                 default:
-                    messageImage.setVisibility(View.GONE);
-                    fileContainer.setVisibility(View.GONE);
+                    // Message texte - rien à faire de spécial
                     break;
             }
         }
@@ -206,16 +233,19 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     // ViewHolder pour les messages reçus
     class ReceivedMessageViewHolder extends RecyclerView.ViewHolder {
         private ShapeableImageView senderAvatar;
-        private TextView senderName;
-        private TextView messageText;
-        private TextView messageTime;
+        private MaterialTextView senderName;
+        private MaterialTextView messageText;
+        private MaterialTextView messageTime;
         private ShapeableImageView messageImage;
-        private LinearLayout fileContainer;
-        private TextView fileName;
-        private TextView fileSize;
-        private LinearLayout replyContainer;
-        private TextView replySender;
-        private TextView replyMessage;
+        private MaterialCardView fileContainer;
+        private MaterialTextView fileName;
+        private MaterialTextView fileSize;
+        private MaterialCardView replyContainer;
+        private MaterialTextView replySender;
+        private MaterialTextView replyMessage;
+        private MaterialCardView audioContainer;
+        private MaterialButton audioPlayButton;
+        private MaterialTextView audioDuration;
 
         public ReceivedMessageViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -230,16 +260,18 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             replyContainer = itemView.findViewById(R.id.reply_container);
             replySender = itemView.findViewById(R.id.reply_sender);
             replyMessage = itemView.findViewById(R.id.reply_message);
+            audioContainer = itemView.findViewById(R.id.audio_container);
+            audioPlayButton = itemView.findViewById(R.id.audio_play_button);
+            audioDuration = itemView.findViewById(R.id.audio_duration);
         }
 
         public void bind(Message message) {
             messageText.setText(message.getContent());
-            // CORRECTION: Utiliser la méthode statique au lieu de getFormattedTime()
             messageTime.setText(Message.formatTime(message.getTimestamp()));
             senderName.setText(message.getSenderName());
 
-            // Avatar par défaut pour les messages reçus
-            senderAvatar.setImageResource(R.drawable.default_avatar);
+            // Charger l'avatar de l'expéditeur
+            loadSenderAvatar(message.getSenderId());
 
             // Gérer les différents types de messages
             handleMessageType(message);
@@ -262,12 +294,38 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             });
         }
 
+        private void loadSenderAvatar(String senderId) {
+            TeamRepository.getInstance().getUserById(senderId, new TeamRepository.OnUserLoadedListener() {
+                @Override
+                public void onUserLoaded(User user) {
+                    if (user.getProfileImageBase64() != null) {
+                        Bitmap bitmap = ProfileRepository.base64ToBitmap(user.getProfileImageBase64());
+                        if (bitmap != null) {
+                            senderAvatar.setImageBitmap(bitmap);
+                        } else {
+                            senderAvatar.setImageResource(R.drawable.default_avatar);
+                        }
+                    } else {
+                        senderAvatar.setImageResource(R.drawable.default_avatar);
+                    }
+                }
+
+                @Override
+                public void onError(String error) {
+                    senderAvatar.setImageResource(R.drawable.default_avatar);
+                }
+            });
+        }
+
         private void handleMessageType(Message message) {
+            // Masquer tous les conteneurs par défaut
+            messageImage.setVisibility(View.GONE);
+            fileContainer.setVisibility(View.GONE);
+            audioContainer.setVisibility(View.GONE);
+
             switch (message.getType()) {
                 case IMAGE:
                     messageImage.setVisibility(View.VISIBLE);
-                    fileContainer.setVisibility(View.GONE);
-
                     if (message.getImageUrl() != null) {
                         // Si c'est une image Base64
                         if (message.getImageUrl().startsWith("data:image") || !message.getImageUrl().startsWith("http")) {
@@ -286,9 +344,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     break;
 
                 case FILE:
-                    messageImage.setVisibility(View.GONE);
                     fileContainer.setVisibility(View.VISIBLE);
-
                     if (message.getAttachments() != null && !message.getAttachments().isEmpty()) {
                         Message.FileAttachment attachment = message.getAttachments().get(0);
                         fileName.setText(attachment.getFileName());
@@ -302,9 +358,22 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                     break;
 
+                case AUDIO:
+                    audioContainer.setVisibility(View.VISIBLE);
+                    if (message.getAttachments() != null && !message.getAttachments().isEmpty()) {
+                        Message.FileAttachment audioAttachment = message.getAttachments().get(0);
+                        audioDuration.setText("Audio");
+
+                        audioPlayButton.setOnClickListener(v -> {
+                            if (listener != null) {
+                                listener.onAudioClick(message);
+                            }
+                        });
+                    }
+                    break;
+
                 default:
-                    messageImage.setVisibility(View.GONE);
-                    fileContainer.setVisibility(View.GONE);
+                    // Message texte - rien à faire de spécial
                     break;
             }
         }

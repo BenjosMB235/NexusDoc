@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
+
+    <!-- Dégradé dynamique basé sur les couleurs du thème -->
     <gradient
-        android:startColor="@color/primary_light"
-        android:endColor="@color/primary_color"
+        android:startColor="?attr/colorPrimaryContainer"
+        android:endColor="?attr/colorPrimary"
         android:angle="135" />
+
+    <!-- Contour (stroke) dynamique -->
     <stroke
         android:width="2dp"
-        android:color="@color/primary_color" />
+        android:color="?attr/colorPrimary" />
 </shape>

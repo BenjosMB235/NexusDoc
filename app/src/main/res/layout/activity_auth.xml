@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background"
+    android:background="?attr/colorPrimaryContainer"
     tools:context=".ui.authenfication.AuthActivity">
 
     <!-- Animated background circles -->
@@ -12,8 +13,8 @@
         android:id="@+id/circle_top"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:background="@drawable/circle_shape"
-        android:alpha="0.2"
+        android:background="@drawable/circle_shape_primary"
+        android:alpha="0.15"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="-100dp"
@@ -23,8 +24,8 @@
         android:id="@+id/circle_bottom"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:background="@drawable/circle_shape"
-        android:alpha="0.25"
+        android:background="@drawable/circle_shape_primary"
+        android:alpha="0.2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="-150dp"
@@ -37,9 +38,11 @@
         android:layout_height="140dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="24dp"
-        app:cardBackgroundColor="@color/colorPrimary"
-        app:cardCornerRadius="24dp"
+        app:cardBackgroundColor="?attr/colorOnPrimary"
+        app:cardCornerRadius="28dp"
         app:cardElevation="8dp"
+        app:strokeColor="?attr/colorOutline"
+        app:strokeWidth="1dp"
         app:layout_constraintBottom_toTopOf="@+id/app_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +66,7 @@
         android:layout_height="wrap_content"
         android:text="NEXUSDOC"
         android:textSize="32sp"
-        android:textColor="@color/white"
+        android:textColor="?attr/colorOnPrimaryContainer"
         android:textStyle="bold"
         android:fontFamily="@font/roboto_bold"
         android:letterSpacing="0.02"
@@ -78,9 +81,9 @@
         android:id="@+id/tagline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="La Sécurité de tous vos documents assurés"
+        android:text="Gestion sécurisée de vos documents de vol"
         android:textSize="16sp"
-        android:textColor="@color/white"
+        android:textColor="?attr/colorOnPrimaryContainer"
         android:textAlignment="center"
         android:fontFamily="@font/roboto_medium"
         android:lineSpacingExtra="4dp"
@@ -111,8 +114,8 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:indeterminate="true"
-            app:indicatorColor="@color/white"
-            app:trackColor="@color/colorSecondary"
+            app:indicatorColor="?attr/colorOnPrimaryContainer"
+            app:trackColor="?attr/colorPrimaryContainer"
             app:trackCornerRadius="2dp"
             app:indicatorSize="40dp" />
 
@@ -122,7 +125,7 @@
             android:layout_height="wrap_content"
             android:text="Chargement..."
             android:textSize="14sp"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorOnPrimaryContainer"
             android:fontFamily="@font/roboto_medium"
             android:layout_marginTop="16dp"
             android:alpha="0.8" />
@@ -136,7 +139,7 @@
         android:layout_height="wrap_content"
         android:text="Version 1.0.0"
         android:textSize="12sp"
-        android:textColor="@color/white"
+        android:textColor="?attr/colorOnPrimaryContainer"
         android:fontFamily="@font/roboto_medium"
         android:alpha="0.6"
         android:layout_marginBottom="24dp"
@@ -144,7 +147,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Conteneur principal pour les fragments (match_parent) -->
+    <!-- Conteneur principal pour les fragments -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -157,6 +160,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

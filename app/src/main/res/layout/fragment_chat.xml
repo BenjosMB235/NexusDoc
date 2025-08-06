@@ -19,9 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorSurface"
-            app:title="Chat"
             app:titleTextColor="?attr/colorOnSurface"
-            app:navigationIcon="@drawable/ic_arrow_back"
             app:navigationIconTint="?attr/colorOnSurface">
 
             <!-- Informations du contact -->
@@ -50,7 +48,7 @@
                         android:id="@+id/contact_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nom du Contact"
+                        android:text="@string/chat_contact_name_placeholder"
                         android:fontFamily="@font/roboto_condensed"
                         android:textAppearance="?attr/textAppearanceBodyLarge"
                         android:textColor="?attr/colorOnSurface"
@@ -60,7 +58,7 @@
                         android:id="@+id/contact_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="En ligne"
+                        android:text="@string/chat_contact_status_online"
                         android:fontFamily="@font/roboto_condensed"
                         android:textAppearance="?attr/textAppearanceBodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant" />
@@ -138,7 +136,7 @@
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/input_container"
+            app:layout_constraintBottom_toTopOf="@+id/reply_preview_container"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -152,12 +150,72 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="est en train d'écrire..."
+                android:text="@string/chat_typing_indicator"
                 android:fontFamily="@font/roboto_condensed"
                 android:textAppearance="?attr/textAppearanceBodySmall"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textStyle="italic"
                 android:layout_marginStart="8dp" />
+
+        </LinearLayout>
+
+        <!-- Prévisualisation de réponse -->
+        <LinearLayout
+            android:id="@+id/reply_preview_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="?attr/colorSurfaceVariant"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/input_container"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:background="?attr/colorPrimary"
+                android:layout_marginEnd="12dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/reply_preview_sender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chat_reply_to_sample"
+                    android:fontFamily="@font/roboto_condensed"
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:textColor="?attr/colorPrimary"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/reply_preview_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chat_original_message_preview"
+                    android:fontFamily="@font/roboto_condensed"
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:maxLines="2"
+                    android:ellipsize="end" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/btn_cancel_reply"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_close"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="4dp"
+                app:tint="?attr/colorOnSurfaceVariant" />
 
         </LinearLayout>
 
@@ -216,7 +274,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginHorizontal="8dp"
-                    android:hint="Tapez votre message..."
+                    android:hint="@string/chat_input_hint"
                     android:fontFamily="@font/roboto_condensed"
                     app:boxBackgroundColor="?attr/colorSurfaceVariant"
                     app:boxStrokeColor="?attr/colorPrimary"

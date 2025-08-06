@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
+    android:background="?attr/colorSurface"
     tools:context=".ui.scan.ScanFragment">
 
     <!-- Contenu principal -->
@@ -26,7 +26,7 @@
                 android:layout_marginBottom="24dp"
                 app:cardElevation="4dp"
                 app:cardCornerRadius="16dp"
-                app:strokeColor="@color/primary_color"
+                app:strokeColor="?attr/colorPrimary"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
@@ -41,7 +41,7 @@
                         android:text="Options de scan"
                         android:textStyle="bold"
                         android:textSize="18sp"
-                        android:textColor="@color/text_primary"
+                        android:textColor="?attr/colorOnSurface"
                         android:layout_marginBottom="16dp" />
 
                     <!-- Grille des options de scan -->
@@ -65,7 +65,7 @@
                             app:cardCornerRadius="8dp"
                             android:clickable="true"
                             android:focusable="true"
-                            android:foreground="?android:attr/selectableItemBackground">
+                            android:foreground="?attr/selectableItemBackground">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -79,14 +79,14 @@
                                     android:layout_height="32dp"
                                     android:src="@drawable/ic_scan"
                                     android:layout_marginBottom="8dp"
-                                    app:tint="@color/primary_color" />
+                                    app:tint="?attr/colorPrimary" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Smart Scan"
                                     android:textSize="12sp"
-                                    android:textColor="@color/primary_color"
+                                    android:textColor="?attr/colorPrimary"
                                     android:textAlignment="center" />
 
                             </LinearLayout>
@@ -104,7 +104,7 @@
                             app:cardCornerRadius="8dp"
                             android:clickable="true"
                             android:focusable="true"
-                            android:foreground="?android:attr/selectableItemBackground">
+                            android:foreground="?attr/selectableItemBackground">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -118,14 +118,14 @@
                                     android:layout_height="32dp"
                                     android:src="@drawable/ic_image"
                                     android:layout_marginBottom="8dp"
-                                    app:tint="@color/primary_color" />
+                                    app:tint="?attr/colorPrimary" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Import Images"
                                     android:textSize="12sp"
-                                    android:textColor="@color/primary_color"
+                                    android:textColor="?attr/colorPrimary"
                                     android:textAlignment="center" />
 
                             </LinearLayout>
@@ -143,7 +143,7 @@
                             app:cardCornerRadius="8dp"
                             android:clickable="true"
                             android:focusable="true"
-                            android:foreground="?android:attr/selectableItemBackground">
+                            android:foreground="?attr/selectableItemBackground">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -157,14 +157,14 @@
                                     android:layout_height="32dp"
                                     android:src="@drawable/ic_import"
                                     android:layout_marginBottom="8dp"
-                                    app:tint="@color/primary_color" />
+                                    app:tint="?attr/colorPrimary" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Import Files"
                                     android:textSize="12sp"
-                                    android:textColor="@color/primary_color"
+                                    android:textColor="?attr/colorPrimary"
                                     android:textAlignment="center" />
 
                             </LinearLayout>
@@ -182,7 +182,7 @@
                             app:cardCornerRadius="8dp"
                             android:clickable="true"
                             android:focusable="true"
-                            android:foreground="?android:attr/selectableItemBackground">
+                            android:foreground="?attr/selectableItemBackground">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -196,14 +196,14 @@
                                     android:layout_height="32dp"
                                     android:src="@drawable/ic_burst_mode"
                                     android:layout_marginBottom="8dp"
-                                    app:tint="@color/primary_color" />
+                                    app:tint="?attr/colorPrimary" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Scan Batch"
                                     android:textSize="12sp"
-                                    android:textColor="@color/primary_color"
+                                    android:textColor="?attr/colorPrimary"
                                     android:textAlignment="center" />
 
                             </LinearLayout>
@@ -216,41 +216,41 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Section des fichiers récents -->
-            <LinearLayout
-                android:layout_width="match_parent"
+        <!-- Section des fichiers récents -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="16dp">
+                android:layout_weight="1"
+                android:text="Fichiers récents"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="?attr/colorOnSurface" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Fichiers récents"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/text_primary" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_view_all"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Voir tout"
-                    style="@style/Widget.Material3.Button.TextButton"
-                    app:icon="@drawable/ic_arrow_forward"
-                    app:iconGravity="end" />
-
-            </LinearLayout>
-
-            <!-- Liste des fichiers récents -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_recent_files"
-                android:layout_width="match_parent"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_view_all"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/item_document_list" />
+                android:text="Voir tout"
+                style="@style/Widget.Material3.Button.TextButton"
+                app:icon="@drawable/ic_arrow_forward"
+                app:iconGravity="end" />
+
+        </LinearLayout>
+
+        <!-- Liste des fichiers récents -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_recent_files"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            tools:listitem="@layout/item_document_list" />
 
         </LinearLayout>
 
@@ -265,8 +265,8 @@
         android:layout_margin="16dp"
         android:text="Scan rapide"
         app:icon="@drawable/ic_camera"
-        app:backgroundTint="@color/primary_color"
-        app:iconTint="@color/white"
-        android:textColor="@color/white" />
+        app:backgroundTint="?attr/colorPrimary"
+        app:iconTint="?attr/colorOnPrimary"
+        android:textColor="?attr/colorOnPrimary" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

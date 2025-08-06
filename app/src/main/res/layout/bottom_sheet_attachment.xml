@@ -6,99 +6,135 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
+    <!-- Titre -->
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Envoyer un fichier"
-        android:textAppearance="?attr/textAppearanceTitleMedium"
+        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+        android:textColor="?attr/colorOnSurface"
         android:layout_marginBottom="16dp" />
 
+    <!-- Conteneur des options -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center">
 
-        <LinearLayout
+        <!-- Option Caméra -->
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/btn_camera"
+            style="@style/Widget.Material3.CardView.Elevated"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="16dp"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true">
+            android:layout_margin="8dp"
+            app:cardBackgroundColor="?attr/colorSurfaceContainerLow"
+            app:strokeColor="?attr/colorOutline"
+            app:strokeWidth="1dp">
 
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_camera"
-                android:tint="?attr/colorPrimary" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Caméra"
-                android:layout_marginTop="8dp"
-                android:textColor="?attr/colorOnSurface" />
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="16dp">
 
-        </LinearLayout>
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_camera"
+                    android:background="?attr/colorPrimaryContainer"
+                    android:padding="12dp"
+                    app:tint="?attr/colorOnPrimaryContainer"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
-        <LinearLayout
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Caméra"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:textColor="?attr/colorOnSurface"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Option Galerie -->
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/btn_gallery"
+            style="@style/Widget.Material3.CardView.Elevated"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="16dp"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true">
+            android:layout_margin="8dp"
+            app:cardBackgroundColor="?attr/colorSurfaceContainerLow"
+            app:strokeColor="?attr/colorOutline"
+            app:strokeWidth="1dp">
 
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_image"
-                android:tint="?attr/colorPrimary" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Galerie"
-                android:layout_marginTop="8dp"
-                android:textColor="?attr/colorOnSurface" />
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="16dp">
 
-        </LinearLayout>
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_image"
+                    android:background="?attr/colorSecondaryContainer"
+                    android:padding="12dp"
+                    app:tint="?attr/colorOnSecondaryContainer"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
-        <LinearLayout
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Galerie"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:textColor="?attr/colorOnSurface"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Option Document -->
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/btn_document"
+            style="@style/Widget.Material3.CardView.Elevated"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="16dp"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true">
+            android:layout_margin="8dp"
+            app:cardBackgroundColor="?attr/colorSurfaceContainerLow"
+            app:strokeColor="?attr/colorOutline"
+            app:strokeWidth="1dp">
 
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_description_24"
-                android:tint="?attr/colorPrimary" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Document"
-                android:layout_marginTop="8dp"
-                android:textColor="?attr/colorOnSurface" />
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="16dp">
 
-        </LinearLayout>
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_description_24"
+                    android:background="?attr/colorTertiaryContainer"
+                    android:padding="12dp"
+                    app:tint="?attr/colorOnTertiaryContainer"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Document"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:textColor="?attr/colorOnSurface"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 

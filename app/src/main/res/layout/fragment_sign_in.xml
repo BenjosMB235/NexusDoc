@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="?attr/colorSurface"
     tools:context=".ui.authenfication.SignInFragment">
 
     <!-- Formes décoratives en arrière-plan -->
@@ -13,8 +13,8 @@
         android:id="@+id/background_shape_top"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:background="@drawable/circular_shape"
-        android:alpha="0.2"
+        android:background="@drawable/circular_shape_primary"
+        android:alpha="0.1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="-50dp"
@@ -24,8 +24,8 @@
         android:id="@+id/background_shape_bottom"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:background="@drawable/circular_shape"
-        android:alpha="0.15"
+        android:background="@drawable/circular_shape_primary"
+        android:alpha="0.08"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="-100dp"
@@ -54,14 +54,16 @@
                 android:layout_weight="1" />
 
             <!-- Logo avec animation -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/logo_container"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_marginBottom="32dp"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="8dp"
-                app:cardBackgroundColor="@color/cardview_shadow_end_color">
+                app:cardBackgroundColor="?attr/colorPrimaryContainer"
+                app:strokeColor="?attr/colorOutline"
+                app:strokeWidth="1dp">
 
                 <ImageView
                     android:id="@+id/logo_image"
@@ -70,7 +72,7 @@
                     android:layout_gravity="center"
                     android:src="@drawable/logo2" />
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Titre avec animation -->
             <com.google.android.material.textview.MaterialTextView
@@ -79,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:text="NexusDoc"
                 android:textSize="32sp"
-                android:textColor="@color/textPrimary"
+                android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/roboto_condensed" />
@@ -91,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:text="Connexion"
                 android:textSize="28sp"
-                android:textColor="@color/textSecondary"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:textStyle="normal"
                 android:layout_marginBottom="48dp"
                 android:fontFamily="@font/roboto_condensed" />
@@ -113,9 +115,10 @@
                     android:layout_marginBottom="16dp"
                     android:hint="Email"
                     app:startIconDrawable="@drawable/ic_email"
-                    app:startIconTint="@color/textPrimary"
-                    app:boxStrokeColor="@color/textPrimary"
-                    app:hintTextColor="@color/textSecondary">
+                    app:startIconTint="?attr/colorOnSurfaceVariant"
+                    app:boxStrokeColor="?attr/colorOutline"
+                    app:hintTextColor="?attr/colorOnSurfaceVariant"
+                    app:boxBackgroundColor="?attr/colorSurface">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/email_input"
@@ -124,7 +127,7 @@
                         android:inputType="textEmailAddress"
                         android:paddingStart="38dp"
                         android:fontFamily="@font/roboto_condensed"
-                        android:textColor="@color/textPrimary" />
+                        android:textColor="?attr/colorOnSurface" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -137,10 +140,12 @@
                     android:layout_marginBottom="16dp"
                     android:hint="Mot de passe"
                     app:startIconDrawable="@drawable/ic_lock"
-                    app:startIconTint="@color/textSecondary"
+                    app:startIconTint="?attr/colorOnSurfaceVariant"
                     app:endIconMode="password_toggle"
-                    app:boxStrokeColor="@color/textPrimary"
-                    app:hintTextColor="@color/textSecondary">
+                    app:endIconTint="?attr/colorOnSurfaceVariant"
+                    app:boxStrokeColor="?attr/colorOutline"
+                    app:hintTextColor="?attr/colorOnSurfaceVariant"
+                    app:boxBackgroundColor="?attr/colorSurface">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/password_input"
@@ -149,7 +154,7 @@
                         android:inputType="textPassword"
                         android:paddingStart="38dp"
                         android:fontFamily="@font/roboto_condensed"
-                        android:textColor="@color/textPrimary" />
+                        android:textColor="?attr/colorOnSurface" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -160,7 +165,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:text="Mot de passe oublié ?"
-                    android:textColor="@color/textPrimary"
+                    android:textColor="?attr/colorPrimary"
                     android:textSize="14sp"
                     android:layout_marginBottom="32dp"
                     android:clickable="true"
@@ -179,13 +184,13 @@
                 android:text="Se connecter"
                 android:textSize="16sp"
                 android:textAllCaps="false"
-                style="@style/Widget.Material3.Button.UnelevatedButton"
-                android:backgroundTint="@color/colorPrimary"
-                android:textColor="@color/white"
+                style="@style/Widget.Material3.Button"
+                app:backgroundTint="?attr/colorPrimary"
+                android:textColor="?attr/colorOnPrimary"
                 app:cornerRadius="16dp"
                 app:icon="@drawable/ic_arrow_forward"
                 app:iconGravity="end"
-                app:iconTint="@color/white"
+                app:iconTint="?attr/colorOnPrimary"
                 android:layout_marginBottom="32dp"
                 android:fontFamily="@font/roboto_medium" />
 
@@ -206,7 +211,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Vous n'avez pas de compte ? "
-                    android:textColor="@color/textPrimary"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     android:textSize="14sp"
                     android:fontFamily="@font/roboto_medium" />
 
@@ -215,7 +220,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Créer un compte"
-                    android:textColor="@color/colorSecondary"
+                    android:textColor="?attr/colorPrimary"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:clickable="true"

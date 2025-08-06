@@ -15,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.nexusdoc.ui.team.adapter.TeamAdapter;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
@@ -76,7 +75,6 @@ public class TeamFragment extends Fragment implements TeamAdapter.OnMemberClickL
         etSearch = view.findViewById(R.id.et_search);
         btnFilter = view.findViewById(R.id.btn_filter);
         chipGroupFilters = view.findViewById(R.id.chip_group_filters);
-        fabAddMember = view.findViewById(R.id.fab_add_member);
         bottomSheetFilters = view.findViewById(R.id.bottom_sheet_filters);
 
         // Bottom sheet components
@@ -131,6 +129,10 @@ public class TeamFragment extends Fragment implements TeamAdapter.OnMemberClickL
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().length() < 3) {
+                    Toast.makeText(getContext(), "Recherche doit contenir au moins 3 caractères", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 viewModel.searchMembers(s.toString());
             }
 
@@ -187,10 +189,6 @@ public class TeamFragment extends Fragment implements TeamAdapter.OnMemberClickL
             }
         });
 
-        fabAddMember.setOnClickListener(v -> {
-            // Naviguer vers l'écran d'ajout de membre
-            showAddMemberDialog();
-        });
 
         // Bottom sheet listeners
         btnResetFilters.setOnClickListener(v -> {
@@ -352,6 +350,7 @@ public class TeamFragment extends Fragment implements TeamAdapter.OnMemberClickL
                 .setMessage("Êtes-vous sûr de vouloir supprimer " + user.getUsername() + " de l'équipe ?")
                 .setPositiveButton("Supprimer", (dialog, which) -> {
                     viewModel.removeTeamMember(user.getId());
+                    Toast.makeText(getContext(), "Membre supprimé avec succès", Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton("Annuler", null)
                 .show();

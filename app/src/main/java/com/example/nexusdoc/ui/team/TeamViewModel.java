@@ -5,8 +5,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.example.nexusdoc.ui.data.models.User;
 import com.example.nexusdoc.ui.team.repository.TeamRepository;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TeamViewModel extends ViewModel {
     private TeamRepository teamRepository;
@@ -16,6 +19,8 @@ public class TeamViewModel extends ViewModel {
     private MutableLiveData<List<String>> activeRoleFilters;
     private MutableLiveData<String> sortBy;
     private MutableLiveData<TeamStats> teamStats;
+    private MutableLiveData<Boolean> isLoading;
+    private MutableLiveData<String> errorMessage;
 
     private List<User> originalMembers;
 
@@ -27,6 +32,8 @@ public class TeamViewModel extends ViewModel {
         activeRoleFilters = new MutableLiveData<>(new ArrayList<>());
         sortBy = new MutableLiveData<>("name");
         teamStats = new MutableLiveData<>();
+        isLoading = new MutableLiveData<>();
+        errorMessage = new MutableLiveData<>();
         originalMembers = new ArrayList<>();
 
         // Observer les changements dans les membres de l'équipe
@@ -48,11 +55,11 @@ public class TeamViewModel extends ViewModel {
     }
 
     public LiveData<String> getErrorMessage() {
-        return teamRepository.getErrorMessage();
+        return errorMessage;
     }
 
     public LiveData<Boolean> getIsLoading() {
-        return teamRepository.getIsLoading();
+        return isLoading;
     }
 
     public LiveData<TeamStats> getTeamStats() {
@@ -64,6 +71,7 @@ public class TeamViewModel extends ViewModel {
     }
 
     public void loadTeamMembers() {
+        isLoading.setValue(true);
         teamRepository.loadTeamMembers();
     }
 
@@ -124,13 +132,17 @@ public class TeamViewModel extends ViewModel {
     private void applyFiltersAndSort() {
         List<User> result = new ArrayList<>(originalMembers);
 
+        // Exclure l'utilisateur actif
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        result.removeIf(user -> user.getId().equals(currentUserId));
+
         // Appliquer la recherche
         String query = searchQuery.getValue();
         if (query != null && !query.isEmpty()) {
             result = result.stream()
                     .filter(user -> user.getUsername().toLowerCase().contains(query.toLowerCase()) ||
                             user.getFonction().toLowerCase().contains(query.toLowerCase()))
-                    .collect(java.util.stream.Collectors.toList());
+                    .collect(Collectors.toList());
         }
 
         // Appliquer les filtres de statut
@@ -138,7 +150,7 @@ public class TeamViewModel extends ViewModel {
         if (statusFilters != null && !statusFilters.isEmpty()) {
             result = result.stream()
                     .filter(user -> statusFilters.contains(user.getStatus()))
-                    .collect(java.util.stream.Collectors.toList());
+                    .collect(Collectors.toList());
         }
 
         // Appliquer les filtres de rôle
@@ -146,7 +158,7 @@ public class TeamViewModel extends ViewModel {
         if (roleFilters != null && !roleFilters.isEmpty()) {
             result = result.stream()
                     .filter(user -> roleFilters.contains(user.getFonction()))
-                    .collect(java.util.stream.Collectors.toList());
+                    .collect(Collectors.toList());
         }
 
         // Appliquer le tri
@@ -190,6 +202,17 @@ public class TeamViewModel extends ViewModel {
         }
 
         teamStats.setValue(new TeamStats(totalMembers, activeMembers, managers, admins));
+    }
+
+    public void updateActivityStatus() {
+        for (User user : originalMembers) {
+            if (user.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                user.setStatus("online");
+            } else {
+                user.setStatus("offline");
+            }
+        }
+        applyFiltersAndSort();
     }
 
     public void addTeamMember(User user) {

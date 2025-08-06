@@ -21,11 +21,13 @@ import androidx.cardview.widget.CardView;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.nexusdoc.BaseActivity;
 import com.example.nexusdoc.R;
+import com.google.android.material.card.MaterialCardView;
 
-public class AuthActivity extends AppCompatActivity {
+public class AuthActivity extends BaseActivity {
 
-    private CardView logoCard;
+    private MaterialCardView logoCard;
     private ImageView logoImage;
     private View circleTop;
     private View circleBottom;

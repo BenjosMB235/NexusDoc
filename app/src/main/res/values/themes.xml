@@ -1,25 +1,59 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Base theme -->
     <style name="Theme.NexusDoc" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryVariant">@color/colorPrimary</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/colorSecondary</item>
-        <item name="colorSecondaryVariant">@color/colorSecondary</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <!-- Primary colors -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="colorPrimaryContainer">@color/primary_container</item>
+
+        <!-- Secondary colors -->
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorOnSecondary">@color/on_secondary</item>
+        <item name="colorSecondaryContainer">@color/secondary_container</item>
+
+        <!-- Surface colors -->
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/on_surface</item>
+        <item name="colorSurfaceVariant">@color/surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/on_surface_variant</item>
+
+        <!-- Status bar -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+
+
+        <!-- Other -->
+        <item name="colorOutline">@color/outline</item>
+        <item name="cardViewStyle">@style/CardView.AirFrance</item>
+
+        <item name="colorInfo">#2196F3</item> <!-- bleu info -->
+        <item name="colorInfoContainer">#BBDEFB</item> <!-- bleu clair transparent -->
+
+        <item name="colorScrim">#B3000000</item>
+
+        <item name="android:fontFamily">@font/roboto_condensed</item>
+
     </style>
 
-    <style name="Theme.NexusDoc.NoActionBar">
+    <style name="Theme.NexusDoc.NoActionBar" parent="Theme.NexusDoc">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+        <!-- Status bar -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+
+        <item name="android:fontFamily">@font/roboto_condensed</item>
     </style>
 
-    <style name="Theme.NexusDoc.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.NexusDoc.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!-- Custom CardView style -->
+    <style name="CardView.AirFrance" parent="@style/CardView">
+        <item name="cardBackgroundColor">@color/card_background</item>
+        <item name="cardElevation">4dp</item>
+        <item name="cardCornerRadius">8dp</item>
+    </style>
 </resources>

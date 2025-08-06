@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NexusDoc</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">NexusDoc</string>
+    <string name="nav_header_subtitle">The solution in hand</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="nav_item_home">Home</string>
+    <string name="nav_item_profile">Profile</string>
+    <string name="nav_item_settings">Settings</string>
+
+    <!-- Settings Fragment -->
+    <string name="settings_title">Settings</string>
+
+    <!-- Appearance Section -->
+    <string name="appearance_title">Appearance</string>
+    <string name="dark_theme">Dark theme</string>
+    <string name="enabled">Enabled</string>
+    <string name="disabled">Disabled</string>
+
+    <!-- Language Section -->
+    <string name="language_title">Language</string>
+    <string name="french">French</string>
+    <string name="english">English</string>
+    <string name="spanish">Spanish</string>
+
+    <!-- Notifications Section -->
+    <string name="notifications_title">Notifications</string>
+    <string name="push_notifications">Push notifications</string>
+
+    <!-- Help Section -->
+    <string name="help_support">Help and Support</string>
+    <string name="faq_assistance">FAQ and assistance</string>
+    <string name="faq_title">Frequently Asked Questions</string>
+
+    <!-- FAQ Questions and Answers -->
+    <string name="faq_theme_question">How to change my theme?</string>
+    <string name="faq_theme_answer">Use the toggle in the \'Appearance\' section to switch between light and dark theme.</string>
+
+    <string name="faq_notifications_question">How to disable notifications?</string>
+    <string name="faq_notifications_answer">Turn off the toggle in the \'Notifications\' section to stop receiving notifications.</string>
+
+    <string name="faq_language_question">How to change the language?</string>
+    <string name="faq_language_answer">Select your preferred language from the available options in the \'Language\' section.</string>
+
+    <string name="faq_settings_question">Are my settings saved?</string>
+    <string name="faq_settings_answer">Yes, all your settings are automatically saved and restored each time you open the app.</string>
+
+    <!-- About Fragment -->
+    <string name="about_title">About</string>
+
+    <!-- App Information -->
+    <string name="version_placeholder">Version 1.0.0</string>
+    <string name="version_format">Version %s</string>
+    <string name="version_detailed_format">%s (Build %d)</string>
+    <string name="version_unknown">Unknown version</string>
+    <string name="date_unknown">Unknown date</string>
+
+    <!-- Description Section -->
+    <string name="description_title">Description</string>
+    <string name="app_description">A modern and intuitive app designed to provide the best possible user experience. This application combines functionality and elegant design to meet all your daily needs.</string>
+
+    <!-- Developer Section -->
+    <string name="developer_title">Developer</string>
+    <string name="developer_name_label">Name</string>
+    <string name="developer_name">Mbaïram Benjamin Beassoum</string>
+
+    <!-- Contact Section -->
+    <string name="contact_title">Contact</string>
+    <string name="email_label">Email</string>
+    <string name="developer_email">mbaibenjsos@gmail.com</string>
+    <string name="phone_label">Phone</string>
+    <string name="developer_phone">+235 60 59 65 58</string>
+    <string name="website_label">Website</string>
+    <string name="developer_website">www.example.com</string>
+
+    <!-- Technical Information -->
+    <string name="technical_info_title">Technical Information</string>
+    <string name="version_label">Version</string>
+    <string name="version_detailed">1.0.0 (Build 1)</string>
+    <string name="build_date_label">Build date</string>
+    <string name="build_date">January 15, 2025</string>
+
+    <!-- Contact Actions -->
+    <string name="send_email">Send email</string>
+    <string name="email_subject">Contact from %s</string>
+    <string name="no_email_app">No email app found</string>
+    <string name="no_phone_app">No phone app found</string>
+    <string name="no_browser_app">No browser found</string>
+
+    <!-- Archives Fragment -->
+    <string name="archives_title">Archives</string>
+    <string name="search_documents">Search documents...</string>
+    <string name="quick_actions">Quick actions</string>
+    <string name="scan_document">Scan</string>
+    <string name="create_folder">New folder</string>
+    <string name="upload_file">Upload</string>
+    <string name="import_files">Import</string>
+    <string name="invoices_section">Suppliers</string>
+    <string name="admin_section">Administrative documents</string>
+    <string name="purchase_orders_section">Clients</string>
+    <string name="other_documents_section">Other documents</string>
+
+    <!-- Filter Options -->
+    <string name="filter_all">All</string>
+    <string name="filter_recent">Recent</string>
+    <string name="filter_favorites">Favorites</string>
+    <string name="filter_shared">Shared</string>
+
+    <!-- Sections -->
+    <string name="section_admin">Administration</string>
+    <string name="section_fournisseurs">Suppliers</string>
+    <string name="section_clients">Clients</string>
+    <string name="section_autres">Others</string>
+
+    <!-- Actions -->
+    <string name="action_scan_document">Scan a document</string>
+    <string name="action_take_photo">Take a photo</string>
+    <string name="action_import_file">Import a file</string>
+    <string name="action_open">Open</string>
+    <string name="action_share">Share</string>
+    <string name="action_rename">Rename</string>
+    <string name="action_add_favorite">Add to favorites</string>
+    <string name="action_remove_favorite">Remove from favorites</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_properties">Properties</string>
+
+    <!-- Content Descriptions -->
+    <string name="cd_home_button">Home button</string>
+    <string name="cd_breadcrumb_separator">Path separator</string>
+    <string name="cd_switch_to_list">Switch to list view</string>
+    <string name="cd_switch_to_grid">Switch to grid view</string>
+
+    <!-- Dialog Titles -->
+    <string name="dialog_create_folder_title">Create new folder</string>
+    <string name="dialog_add_title">Add item</string>
+    <string name="dialog_select_file">Select file</string>
+    <string name="dialog_rename_document_title">Rename document</string>
+    <string name="dialog_rename_folder_title">Rename folder</string>
+    <string name="dialog_delete_document_title">Delete document</string>
+    <string name="dialog_delete_folder_title">Delete folder</string>
+    <string name="dialog_folder_properties_title">Folder properties</string>
+
+    <!-- Dialog Hints -->
+    <string name="dialog_folder_name_hint">Folder name</string>
+    <string name="dialog_new_name_hint">New name</string>
+
+    <!-- Dialog Messages -->
+    <string name="dialog_delete_document_message">Are you sure you want to delete the document "%1$s"?</string>
+    <string name="dialog_delete_folder_message">Are you sure you want to delete the folder "%1$s"?</string>
+    <string name="dialog_delete_folder_with_content_message">The folder "%1$s" contains items. Are you sure you want to delete it with all its content?</string>
+
+    <!-- Field Names -->
+    <string name="field_folder_name">folder name</string>
+    <string name="field_document_name">document name</string>
+
+    <!-- Error Messages -->
+    <string name="error_permissions_required">Camera and storage permissions are required for this feature</string>
+    <string name="error_no_camera_app">No camera app available</string>
+    <string name="error_select_section_first">Please select a section first</string>
+    <string name="error_title">Error</string>
+
+    <!-- Share Messages -->
+    <string name="share_document_subject">Document sharing</string>
+    <string name="share_document_text">I\'m sharing with you the document: %1$s</string>
+    <string name="share_document_title">Share document</string>
+
+    <!-- Folder Properties Format -->
+    <string name="folder_properties_format">Name: %1$s\nType: %2$s\nDocuments count: %3$d\nSubfolders count: %4$d\nSize: %5$s\nCreation date: %6$s\nModification date: %7$s</string>
+
+    <!-- Additional strings -->
+    <string name="loading">Loading…</string>
+    <string name="retry">Retry</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <!-- Search >
+    <string name="search_hint">Search…</string-->
+    <string name="clear_search">Clear search</string>
+
+    <!-- Storage info -->
+    <string name="storage_format">%1$s used of %2$s</string>
+
+    <!-- Empty states -->
+    <string name="empty_section">No items in this section</string>
+    <string name="empty_search_results">No results found</string>
+
+    <!-- Progress messages -->
+    <string name="uploading_file">Uploading file…</string>
+    <string name="creating_folder">Creating folder…</string>
+    <string name="deleting_item">Deleting…</string>
+
+    <!-- Success messages -->
+    <string name="folder_created_successfully">Folder created successfully</string>
+    <string name="document_uploaded_successfully">Document uploaded successfully</string>
+    <string name="item_deleted_successfully">Item deleted successfully</string>
+    <string name="item_renamed_successfully">Item renamed successfully</string>
+    <string name="favorite_added">Added to favorites</string>
+    <string name="favorite_removed">Removed from favorites</string>
+
+    <!-- App Name -->
+    <string name="app_name_with_emoji">📚 NexusDoc</string>
+
+    <!-- Storage -->
+    <string name="calculating_storage">Calculating…</string>
+    <string name="storage_used">%1$s used of %2$s</string>
+
+    <!-- Empty State >
+    <string name="empty_state_title">No documents</string-->
+    <string name="empty_state_message">Start by adding your first document or creating a folder</string>
+    <string name="add_first_document">Add a document</string>
+
+    <!-- Actions -->
+    <string name="add_content">Add content</string>
+    <string name="import_file">Import</string>
+
+    <!-- Document Actions -->
+    <string name="open">Open</string>
+    <string name="share">Share</string>
+    <string name="rename">Rename</string>
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="remove_from_favorites">Remove from favorites</string>
+    <string name="delete">Delete</string>
+
+    <!-- Folder Creation -->
+    <string name="folder_name_hint">Folder name</string>
+    <string name="folder_description_hint">Description (optional)</string>
+    <string name="folder_color_label">Folder color</string>
+    <string name="current_location">Location:</string>
+    <string name="create">Create</string>
+
+    <!-- Document Rename -->
+    <string name="document_name_hint">Document name</string>
+    <string name="document_tags_hint">Tags (comma separated)</string>
+    <string name="document_tags_helper">Ex: contract, important, client</string>
+    <string name="document_info_title">Document information</string>
+    <string name="file_size_label">Size:</string>
+    <string name="file_type_label">Type:</string>
+    <string name="creation_date_label">Created on:</string>
+
+    <!-- Sections -->
+    <string name="section_suppliers">Suppliers</string>
+    <string name="section_others">Others</string>
+
+    <!-- File Types -->
+    <string name="file_type_pdf">PDF</string>
+    <string name="file_type_image">Image</string>
+    <string name="file_type_word">Word</string>
+    <string name="file_type_excel">Excel</string>
+    <string name="file_type_powerpoint">PowerPoint</string>
+    <string name="file_type_text">Text</string>
+    <string name="file_type_video">Video</string>
+    <string name="file_type_audio">Audio</string>
+    <string name="file_type_other">Other</string>
+
+    <!-- Time Formats -->
+    <string name="time_just_now">Just now</string>
+    <string name="time_minutes_ago">%d min ago</string>
+    <string name="time_hours_ago">%d h ago</string>
+    <string name="time_days_ago">%d days ago</string>
+    <string name="time_weeks_ago">%d weeks ago</string>
+    <string name="time_months_ago">%d months ago</string>
+
+    <!-- Error Messages -->
+    <string name="error_loading_documents">Error loading documents</string>
+    <string name="error_creating_folder">Error creating folder</string>
+    <string name="error_deleting_document">Error deleting document</string>
+    <string name="error_opening_document">Cannot open document</string>
+    <string name="error_sharing_document">Cannot share document</string>
+    <string name="error_importing_file">Error importing file</string>
+
+    <!-- Success Messages -->
+    <string name="document_added_successfully">Document added successfully</string>
+    <string name="document_deleted_successfully">Document deleted</string>
+    <string name="document_renamed_successfully">Document renamed</string>
+
+    <string name="document_icon_desc">Document icon</string>
+
+    <!-- Permissions -->
+    <string name="permission_camera_required">Camera permission required for scanning</string>
+    <string name="permission_storage_required">Storage permission required for importing</string>
+    <string name="permissions_granted">Permissions granted</string>
+
+    <!-- Confirmation Dialogs -->
+    <string name="delete_document_title">Delete document</string>
+    <string name="delete_document_message">Are you sure you want to delete \"%1$s\"?</string>
+    <string name="delete_folder_title">Delete folder</string>
+    <string name="delete_folder_message">Are you sure you want to delete the folder \"%1$s\" and all its content?</string>
+
+    <!-- Content Descriptions -->
+    <string name="cd_search_icon">Search icon</string>
+    <string name="cd_clear_search">Clear search</string>
+    <string name="cd_view_mode">Change view mode</string>
+    <string name="cd_document_thumbnail">Document thumbnail</string>
+    <string name="cd_folder_icon">Folder icon</string>
+    <string name="cd_favorite_button">Favorite button</string>
+    <string name="cd_more_options">More options</string>
+    <string name="cd_navigate_up">Navigate up</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="search_hint_extended">Search documents and folders...</string>
+    <string name="filter_all_chip">All</string>
+    <string name="filter_recent_chip">Recent</string>
+    <string name="filter_favorites_chip">Favorites</string>
+    <string name="filter_shared_chip">Shared</string>
+    <string name="app_title_with_emoji">📚 NexusDoc DMS</string>
+    <string name="storage_info_default">0 B • 0 documents</string>
+    <string name="status_loading">Loading...</string>
+    <string name="empty_state_title_ged">Welcome to your DMS</string>
+    <string name="empty_state_message_ged">Start by exploring the sections above\nor add your first documents</string>
+    <string name="get_started_button">Get Started</string>
+    <string name="add_document_or_folder_desc">Add a document or folder</string>
+
+    <string name="preview_folder_name_example">Client Contracts</string>
+    <string name="preview_docs_count_example">12 docs</string>
+    <string name="preview_subfolder_count_example">3 folders</string>
+    <string name="preview_folder_path_example">/admin/contracts</string>
+
+    <string name="preview_document_name">Important_Document.pdf</string>
+    <string name="preview_document_date">Today, 10:30</string>
+    <string name="preview_document_size">2.4 MB</string>
+    <string name="preview_document_type">PDF</string>
+
+    <string name="section_title_admin">Administrative Documents</string>
+    <string name="section_subtitle_preview">Last modified: 2h ago</string>
+    <string name="section_counter_preview">12</string>
+    <string name="label_navigation">Navigation</string>
+    <string name="action_scan">Scan</string>
+    <string name="action_create_folder">Folder</string>
+    <string name="action_upload_file">Upload</string>
+    <string name="empty_state_title">No items</string>
+    <string name="empty_state_subtitle">Tap to add content</string>
+
+    <string name="overview_title">Overview</string>
+    <string name="total_members_label">Total members</string>
+    <string name="active_members_label">Active</string>
+
+    <string name="search_hint">Search a member...</string>
+    <string name="filter_content_description">Filter</string>
+
+    <string name="filter_chip_all">All</string>
+    <string name="filter_chip_active">Active</string>
+    <string name="filter_chip_managers">Managers</string>
+    <string name="filter_chip_recent">Recent</string>
+
+    <string name="profile_picture_content_description">Profile picture</string>
+    <string name="more_options_content_description">More options</string>
+
+    <string name="member_name_placeholder">Member name</string>
+    <string name="member_role_placeholder">Developer</string>
+    <string name="member_last_active_placeholder">Active 2h ago</string>
+    <string name="chip_manager_label">Manager</string>
+    <string name="chip_admin_label">Admin</string>
+    <string name="button_message">Message</string>
+    <string name="button_call">Call</string>
+
+    <string name="chat_contact_name_placeholder">Contact Name</string>
+    <string name="chat_contact_status_online">Online</string>
+    <string name="chat_typing_indicator">is typing...</string>
+    <string name="chat_reply_to_sample">Reply to John</string>
+    <string name="chat_reply_to">Reply to %1$s</string>
+    <string name="chat_original_message_preview">Original message...</string>
+    <string name="chat_input_hint">Type your message...</string>
+
+</resources>

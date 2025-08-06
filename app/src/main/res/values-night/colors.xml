@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Couleurs Air France (mêmes que pour le thème clair) -->
+    <color name="af_blue">#002157</color>
+    <color name="af_red">#E31837</color>
+
+    <!-- Couleurs primaires adaptées pour le thème sombre -->
+    <color name="primary">@color/af_blue</color>
+    <color name="on_primary">#E0E0E0</color>
+    <color name="primary_container">#1A3D7A</color>
+
+    <!-- Couleurs secondaires adaptées -->
+    <color name="secondary">@color/af_red</color>
+    <color name="on_secondary">#E0E0E0</color>
+    <color name="secondary_container">#8A0C25</color>
+
+    <!-- Surfaces et arrière-plans -->
+    <color name="surface">#121212</color>
+    <color name="on_surface">#E0E0E0</color>
+    <color name="surface_variant">#1E1E1E</color>
+    <color name="on_surface_variant">#BDBDBD</color>
+
+    <!-- Erreurs et états -->
+    <color name="error">#FF6659</color>
+    <color name="on_error">#FFFFFF</color>
+    <color name="error_container">#93000A</color>
+
+    <!-- Autres couleurs -->
+    <color name="outline">#5C5C5C</color>
+    <color name="card_background">#1E1E1E</color>
+</resources>

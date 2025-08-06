@@ -25,7 +25,7 @@ import com.example.nexusdoc.databinding.ActivityMainBinding;
 import java.lang.reflect.Method;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         // Configuration pour le drawer
         appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.homeFragment,
-                R.id.archivesFragment,
+                R.id.gedFragment,
                 R.id.analyseFragment,
                 R.id.notificationsFragment,
                 R.id.teamFragment

@@ -82,8 +82,17 @@ public class ChatViewModel extends ViewModel {
     }
 
     private void loadOtherUser(String userId) {
-        // Implémenter le chargement de l'autre utilisateur
-        // Vous pouvez utiliser TeamRepository ou créer une méthode spécifique
+        teamRepository.getUserById(userId, new TeamRepository.OnUserLoadedListener() {
+            @Override
+            public void onUserLoaded(User user) {
+                otherUser.setValue(user);
+            }
+
+            @Override
+            public void onError(String error) {
+                // Gérer l'erreur
+            }
+        });
     }
 
     public void sendMessage(String content) {
@@ -129,6 +138,21 @@ public class ChatViewModel extends ViewModel {
         }
     }
 
+    public void sendAudioMessage(List<Message.FileAttachment> attachments) {
+        User current = currentUser.getValue();
+        if (current != null && otherUserId != null) {
+            Message message = new Message(
+                    current.getId(),
+                    current.getUsername(),
+                    otherUserId,
+                    ""
+            );
+            message.setType(Message.MessageType.AUDIO);
+            message.setAttachments(attachments);
+            chatRepository.sendMessage(message);
+        }
+    }
+
     public void replyToMessage(Message originalMessage, String content) {
         User current = currentUser.getValue();
         if (current != null && otherUserId != null) {
@@ -147,6 +171,18 @@ public class ChatViewModel extends ViewModel {
             message.setReplyTo(reply);
             chatRepository.sendMessage(message);
         }
+    }
+
+    public void deleteMessage(String messageId) {
+        chatRepository.deleteMessage(messageId);
+    }
+
+    public void clearChat(String otherUserId) {
+        chatRepository.clearChat(otherUserId);
+    }
+
+    public void blockUser(String userId) {
+        chatRepository.blockUser(userId);
     }
 
     public void setTypingStatus(boolean isTyping) {
